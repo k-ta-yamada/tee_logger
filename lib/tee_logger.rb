@@ -11,11 +11,11 @@ module TeeLogger
   @_run_once = false
   def self.setup
     return base_logger if @_run_once
+    define_singleton_methods_for_setup
 
     yield(self) if block_given?
     @_run_once = true
 
-    define_singleton_methods_for_setup
     define_singleton_methods_for_logging
     define_singleton_methods_for_logging_with_prefix
     base_logger
@@ -24,22 +24,22 @@ module TeeLogger
   class << self
     private
 
-    def base_logger
-      @base_logger ||= Base.new(logdev, shift_age, shift_size)
-    end
-
     def define_singleton_methods_for_setup
       %i(logdev shift_age shift_size).each do |name|
         define_singleton_method(name) do
           instance_variable_get("@#{name}".to_sym)
         end
-        private_class_method name
+        # private_class_method name
 
         define_singleton_method("#{name}=") do |arg|
           instance_variable_set("@#{name}".to_sym, arg)
         end
-        private_class_method "#{name}=".to_sym
+        # private_class_method "#{name}=".to_sym
       end
+    end
+
+    def base_logger
+      @base_logger ||= Base.new(logdev, shift_age, shift_size)
     end
 
     def define_singleton_methods_for_logging
