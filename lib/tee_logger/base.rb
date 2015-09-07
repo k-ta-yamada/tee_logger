@@ -1,23 +1,30 @@
 require 'logger'
-require 'forwardable'
-require 'active_support/logger'
-require 'active_support/inflector'
 
 # main
 module TeeLogger
+  # TODO: defined by setup method, etc ...
+  DEFAULT_FILE = './tee_logger.log'
+  LOGGING_METHODS = %i(debug info warn error fatal).freeze
+
   # base class
   class Base
-    extend Forwardable
-    def_delegators(:@logger, *Logger.instance_methods(false))
-
     def initialize(logdev = DEFAULT_FILE)
-      @logger = Logger.new(logdev)
+      @logfile = Logger.new(logdev)
 
-      # console_log_class = ActiveSupport::Logger
       console_log_class = Logger
       @console = console_log_class.new(STDOUT)
+    end
 
-      @logger.extend(ActiveSupport::Logger.broadcast(@console))
+    LOGGING_METHODS.each do |method_name|
+      define_method(method_name) do |progname = nil, &block|
+        @logfile.send(method_name, progname, &block)
+        @console.send(method_name, progname, &block)
+      end
+
+      define_method("#{method_name}?") do
+        @logfile.send(method_name)
+        @console.send(method_name)
+      end
     end
   end
 end
