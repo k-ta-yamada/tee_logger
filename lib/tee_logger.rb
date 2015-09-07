@@ -5,9 +5,14 @@ require 'tee_logger/base'
 module TeeLogger
   DEFAULT_FILE = './tee_logger.log'
 
-  %i(debug info warn error fatal).each do |method_name|
-    define_singleton_method method_name do |msg = nil|
-      logger.send(method_name, msg)
+  LOGGING_METHODS = %i(debug info warn error fatal)
+
+  LOGGING_METHODS.each do |method_name|
+    define_singleton_method(method_name) do |progname = nil, &block|
+      logger.send(method_name, progname, &block)
+    end
+    define_singleton_method("#{method_name}?") do
+      logger.send("#{method_name}?")
     end
   end
 
