@@ -1,8 +1,6 @@
 # TeeLogger
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/tee_logger`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+logging to logfile and standard output
 
 ## Installation
 
@@ -22,7 +20,70 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'tee_logger'
+TeeLogger.setup
+
+TeeLogger.debug 'hello' # => output console and logfile
+TeeLogger.info 'hello' # => output console and logfile
+TeeLogger.warn 'hello' # => output console and logfile
+TeeLogger.error 'hello' # => output console and logfile
+TeeLogger.fatal 'hello' # => output console and logfile
+
+TeeLogger.console_debug 'hello' # => output console only
+TeeLogger.console_info 'hello' # => output console only
+TeeLogger.console_warn 'hello' # => output console only
+TeeLogger.console_error 'hello' # => output console only
+TeeLogger.console_fatal 'hello' # => output console only
+
+TeeLogger.logger_debug 'hello' # => output logfile only
+TeeLogger.logger_info 'hello' # => output logfile only
+TeeLogger.logger_warn 'hello' # => output logfile only
+TeeLogger.logger_error 'hello' # => output logfile only
+TeeLogger.logger_fatal 'hello' # => output logfile only
+```
+
+and more
+- debug? # => Boolean
+- info? # => Boolean
+- warn? # => Boolean
+- error? # => Boolean
+- fatal? # => Boolean
+- console_debug? # => Boolean
+- console_info? # => Boolean
+- console_warn? # => Boolean
+- console_error? # => Boolean
+- console_fatal? # => Boolean
+- logger_debug? # => Boolean
+- logger_info? # => Boolean
+- logger_warn? # => Boolean
+- logger_error? # => Boolean
+- logger_fatal? # => Boolean
+
+## define logfile name
+
+default logfile is `./tee_logger.log`.
+
+you can change logfile.
+
+```ruby
+require 'tee_logger'
+TeeLogger.setup do |tee_logger|
+  tee_logger.logdev = './hello_world.log'
+  tee_logger.shift_age = 5
+  tee_logger.shift_size = 1_024
+end
+
+TeeLogger.info 'hello' # => output console and logfile('./hello_world.log')
+TeeLogger.console_info 'hello' # => output console only
+TeeLogger.logger_info 'hello' # => output logfile only('./hello_world.log')
+```
+
+setup item is Logger.new arguments.
+- logdev
+- shift_age
+- shift_size
+
 
 ## Development
 

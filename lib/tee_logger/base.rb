@@ -8,23 +8,28 @@ module TeeLogger
 
   # base class
   class Base
-    def initialize(logdev = DEFAULT_FILE)
-      @logfile = Logger.new(logdev)
+    attr_reader :logger, :console
 
-      console_log_class = Logger
-      @console = console_log_class.new(STDOUT)
+    def initialize(logdev = DEFAULT_FILE, shift_age = 0, shift_size = 1_048_576)
+      @logger  = Logger.new(logdev, shift_age, shift_size)
+      @console = Logger.new(STDOUT)
     end
 
     LOGGING_METHODS.each do |method_name|
       define_method(method_name) do |progname = nil, &block|
-        @logfile.send(method_name, progname, &block)
+        @logger.send(method_name, progname, &block)
         @console.send(method_name, progname, &block)
       end
 
       define_method("#{method_name}?") do
-        @logfile.send(method_name)
-        @console.send(method_name)
+        @logger.send("#{method_name}?")
+        @console.send("#{method_name}?")
       end
+    end
+
+    def close
+      @logger.close
+      # @console.close
     end
   end
 end
