@@ -1,6 +1,7 @@
-require 'tee_logger/base'
 require 'tee_logger/version'
+require 'tee_logger/base'
 
+# main
 module TeeLogger
   DEFAULT_FILE = './tee_logger.log'
 
@@ -14,7 +15,7 @@ module TeeLogger
     private
 
     def logger(logdev = DEFAULT_FILE)
-      @@logger ||= Base.new(logdev)
+      @logger ||= Base.new(logdev)
     end
   end
 end

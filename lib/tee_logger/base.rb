@@ -3,13 +3,12 @@ require 'forwardable'
 require 'active_support/logger'
 require 'active_support/inflector'
 
+# main
 module TeeLogger
+  # base class
   class Base
     extend Forwardable
     def_delegators(:@logger, *Logger.instance_methods(false))
-    # def_delegators(:@logger, *TeeLogger.singleton_methods)
-
-    # attr_reader :logger, :console
 
     def initialize(logdev = DEFAULT_FILE)
       @logger = Logger.new(logdev)
