@@ -49,7 +49,8 @@ tl.console.info('console only')
 tl.logger.info('logger only')
 ```
 
-# TODO feature
+## TODO feature
+
 ```
 # disable and enable console output
 tl.disable(:console)

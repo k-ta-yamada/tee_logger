@@ -22,7 +22,7 @@ module TeeLogger
     # check logging level methods.
     LOGGING_METHODS.map { |v| "#{v}?" }.each do |name|
       define_method(name) do
-        @logger.send(name)
+        # @logger.send(name)
         @console.send(name)
       end
     end
@@ -48,9 +48,9 @@ module TeeLogger
       @console.progname = name
     end
 
-    def close
-      @logger.close
-      # @console.close
-    end
+    # def close
+    #   @logger.close
+    #   # @console.close
+    # end
   end
 end
