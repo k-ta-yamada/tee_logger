@@ -1,9 +1,6 @@
 require 'spec_helper'
-# require 'fakefs/spec_helpers'
 
 describe TeeLogger do
-  # include FakeFS::SpecHelpers
-
   it 'has a version number' do
     expect(TeeLogger::VERSION).not_to be nil
   end

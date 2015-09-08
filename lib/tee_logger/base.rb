@@ -12,7 +12,7 @@ module TeeLogger
     end
 
     # logging methods.
-    LOGGING_METHODS.each do |method_name|
+    LOGGING_METHODS.each do |name|
       define_method(name) do |progname = nil, &block|
         @logger.send(name, progname, &block)
         @console.send(name, progname, &block)
