@@ -1,4 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/tee_logger.svg)](http://badge.fury.io/rb/tee_logger)
+[![Build Status](https://travis-ci.org/k-ta-yamada/tee_logger.svg)](https://travis-ci.org/k-ta-yamada/tee_logger)
 
 Sorry, I changed Usage.
 
