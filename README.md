@@ -1,3 +1,4 @@
+[![Gem Version](https://badge.fury.io/rb/tee_logger.svg)](http://badge.fury.io/rb/tee_logger)
 
 Sorry, I changed Usage.
 
