@@ -3,8 +3,8 @@
 
 Sorry, I changed Usage.
 
-- [rubygems](https://rubygems.org/gems/tee_logger)
-- [github](https://github.com/k-ta-yamada/tee_logger)
+- [Rubygems.org](https://rubygems.org/gems/tee_logger)
+- [GitHub](https://github.com/k-ta-yamada/tee_logger)
 
 # TeeLogger
 

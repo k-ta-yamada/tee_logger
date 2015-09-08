@@ -7,44 +7,6 @@ describe TeeLogger do
     expect(TeeLogger::VERSION).not_to be nil
   end
 
-  # TODO: execution test case created after delete this case
-  describe 'TeeLogger\'s instance methods Implement check' do
-    subject(:tl) { described_class.new() }
-
-    it 'has 3 instance variables' do
-      expect(tl.instance_variables).to eq(%i(@base_logger @logger @console))
-    end
-
-    context 'respond_to? logging methods' do
-      logging_methods.each do |logging_method|
-        it "respond_to? ##{logging_method} => true" do
-          expect(tl.respond_to?(logging_method)).to be_truthy
-        end
-      end
-    end
-
-    context 'respond_to? check logging level methods' do
-      logging_methods.map { |v| "#{v}?" }.each do |logging_method|
-        it "respond_to? ##{logging_method} => true" do
-          expect(tl.respond_to?(logging_method)).to be_truthy
-        end
-      end
-    end
-
-    context 'respond_to? instance variables' do
-      %i(logger console).each do |getter|
-        it "respond_to? ##{getter} => true" do
-          expect(tl.respond_to?(getter)).to be_truthy
-        end
-      end
-      %i(base_logger).each do |getter|
-        it "respond_to? ##{getter} => false" do
-          expect(tl.respond_to?(getter)).to be_falsy
-        end
-      end
-    end
-  end
-
   describe 'logging methods' do
     subject(:tl) { described_class.new() }
     let(:block)  { proc { 'hello' } }

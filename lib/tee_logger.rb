@@ -1,8 +1,7 @@
 require 'tee_logger/version'
 require 'tee_logger/constants'
-require 'tee_logger/base'
 
-require 'forwardable'
+require 'logger'
 
 # namespace
 module TeeLogger
@@ -12,33 +11,54 @@ module TeeLogger
   end
 
   class TeeLogger
-    extend Forwardable
-
     attr_reader :logger, :console
 
     def initialize(logdev = DEFAULT_FILE, shift_age = 0, shift_size = 1_048_576)
-      @base_logger = Base.new(logdev, shift_age, shift_size)
-      @logger  = @base_logger.logger
-      @console = @base_logger.console
+      @logger  = Logger.new(logdev, shift_age, shift_size)
+      @console = Logger.new(STDOUT)
     end
 
     # logging methods.
-    def_delegators :@base_logger, *LOGGING_METHODS
+    LOGGING_METHODS.each do |name|
+      define_method(name) do |progname = nil, &block|
+        @logger.send(name, progname, &block)
+        @console.send(name, progname, &block)
+      end
+    end
 
     # check logging level methods.
-    def_delegators :@base_logger, *LOGGING_METHODS.map { |v| "#{v}?" }
+    LOGGING_METHODS.map { |v| "#{v}?" }.each do |name|
+      define_method(name) do
+        # TODO: which?
+        # @logger.send(name)
+        @console.send(name)
+      end
+    end
 
-    # others.
-    def_delegators :@base_logger, :progname, :progname=
+    # TODO: Implement!
+    def disable(target)
+      # undef_method, remove_method ....
+    end
 
-    # TODO: Implement
-    # def_delegators :@base_logger, :datetime_format, :datetime_format=
-    # def_delegators :@base_logger, :formatter, :formatter=
+    # TODO: Implement!
+    def enable(target)
+      # undef_method, remove_method ....
+    end
 
-    # TODO: Implement
-    # def_delegator :@base_logger, :close
-    # def_delegators :@base_logger, :level, :sev_threshold
-    # def_delegators :@base_logger, :add, :log
-    # def_delegators :@base_logger, :unknown, :unknown?
+    def progname
+      # TODO: which?
+      # @logger.progname
+      @console.progname
+    end
+
+    def progname=(name = nil)
+      @logger.progname  = name
+      @console.progname = name
+    end
+
+    # def close
+    #   @logger.close
+    #   # @console.close
+    # end
   end
 end
