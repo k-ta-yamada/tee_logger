@@ -1,6 +1,16 @@
+
+Sorry, I changed Usage.
+
+- [rubygems](https://rubygems.org/gems/tee_logger)
+- [github](https://github.com/k-ta-yamada/tee_logger)
+
 # TeeLogger
 
-logging to logfile and standard output
+logging to logfile and standard output.
+
+Characteristic
+- simple: use standard lib only.
+- like Logger: see usage.
 
 ## Installation
 
@@ -22,68 +32,35 @@ Or install it yourself as:
 
 ```ruby
 require 'tee_logger'
-TeeLogger.setup
 
-TeeLogger.debug 'hello' # => output console and logfile
-TeeLogger.info 'hello' # => output console and logfile
-TeeLogger.warn 'hello' # => output console and logfile
-TeeLogger.error 'hello' # => output console and logfile
-TeeLogger.fatal 'hello' # => output console and logfile
+# Logger.new like options
+tl = TeeLogger.new('./tee_logger.log', 5, 1_024)
 
-TeeLogger.console_debug 'hello' # => output console only
-TeeLogger.console_info 'hello' # => output console only
-TeeLogger.console_warn 'hello' # => output console only
-TeeLogger.console_error 'hello' # => output console only
-TeeLogger.console_fatal 'hello' # => output console only
+tl.debug(:progname) { 'hello world' }
+tl.progname = 'App'
+tl.debug('hello tee_logger')
 
-TeeLogger.logger_debug 'hello' # => output logfile only
-TeeLogger.logger_info 'hello' # => output logfile only
-TeeLogger.logger_warn 'hello' # => output logfile only
-TeeLogger.logger_error 'hello' # => output logfile only
-TeeLogger.logger_fatal 'hello' # => output logfile only
+# console only
+tl.console.info('console only')
+
+# logfile only
+tl.logger.info('logger only')
 ```
 
-and more
-- debug? # => Boolean
-- info? # => Boolean
-- warn? # => Boolean
-- error? # => Boolean
-- fatal? # => Boolean
-- console_debug? # => Boolean
-- console_info? # => Boolean
-- console_warn? # => Boolean
-- console_error? # => Boolean
-- console_fatal? # => Boolean
-- logger_debug? # => Boolean
-- logger_info? # => Boolean
-- logger_warn? # => Boolean
-- logger_error? # => Boolean
-- logger_fatal? # => Boolean
-
-## define logfile name
-
-default logfile is `./tee_logger.log`.
-
-you can change logfile.
-
-```ruby
-require 'tee_logger'
-TeeLogger.setup do |tee_logger|
-  tee_logger.logdev = './hello_world.log'
-  tee_logger.shift_age = 5
-  tee_logger.shift_size = 1_024
-end
-
-TeeLogger.info 'hello' # => output console and logfile('./hello_world.log')
-TeeLogger.console_info 'hello' # => output console only
-TeeLogger.logger_info 'hello' # => output logfile only('./hello_world.log')
+# TODO feature
 ```
+# disable and enable console output
+tl.disable(:console)
+tl.info 'this message is logfile only'
+tl.enable(:console)
+tl.info 'this message is logfile and console'
 
-setup item is Logger.new arguments.
-- logdev
-- shift_age
-- shift_size
-
+# disable and enable logfile output
+tl.disable(:logger)
+tl.info 'this message is consle only'
+tl.enable(:logger)
+tl.info 'this message is logfile and console'
+```
 
 ## Development
 
@@ -93,7 +70,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/tee_logger. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/k-ta-yamada/tee_logger. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
 
 
 ## License

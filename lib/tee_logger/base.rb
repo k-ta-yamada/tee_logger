@@ -1,11 +1,7 @@
 require 'logger'
 
-# main
+# namespace
 module TeeLogger
-  # TODO: defined by setup method, etc ...
-  DEFAULT_FILE = './tee_logger.log'
-  LOGGING_METHODS = %i(debug info warn error fatal).freeze
-
   # base class
   class Base
     attr_reader :logger, :console
@@ -15,16 +11,41 @@ module TeeLogger
       @console = Logger.new(STDOUT)
     end
 
+    # logging methods.
     LOGGING_METHODS.each do |method_name|
-      define_method(method_name) do |progname = nil, &block|
-        @logger.send(method_name, progname, &block)
-        @console.send(method_name, progname, &block)
+      define_method(name) do |progname = nil, &block|
+        @logger.send(name, progname, &block)
+        @console.send(name, progname, &block)
       end
+    end
 
-      define_method("#{method_name}?") do
-        @logger.send("#{method_name}?")
-        @console.send("#{method_name}?")
+    # check logging level methods.
+    LOGGING_METHODS.map { |v| "#{v}?" }
+      define_method(name) do
+        @logger.send(name)
+        @console.send(name)
       end
+    end
+
+    # TODO: Implement
+    def disable(target)
+      # undef_method, remove_method ....
+    end
+
+    # TODO: Implement
+    def enable(target)
+      # undef_method, remove_method ....
+    end
+
+    def progname
+      # TODO: which?
+      # @logger.progname
+      @console.progname
+    end
+
+    def progname=(name = nil)
+      @logger.progname  = name
+      @console.progname = name
     end
 
     def close

@@ -1,71 +1,44 @@
 require 'tee_logger/version'
+require 'tee_logger/constants'
 require 'tee_logger/base'
 
-# main
+require 'forwardable'
+
+# namespace
 module TeeLogger
-  @logdev     = DEFAULT_FILE
-  @shift_age  = 0
-  @shift_size = 1_048_576
-
-  # @ref https://github.com/railsconfig/config/blob/master/lib/config.rb#L18
-  @_run_once = false
-  def self.setup
-    return base_logger if @_run_once
-    define_singleton_methods_for_setup
-
-    yield(self) if block_given?
-    @_run_once = true
-
-    define_singleton_methods_for_logging
-    define_singleton_methods_for_logging_with_prefix
-    base_logger
+  # shortcut for TeeLogger::TeeLogger.new
+  def self.new(logdev = DEFAULT_FILE, shift_age = 0, shift_size = 1_048_576)
+    TeeLogger.new(logdev, shift_age, shift_size)
   end
 
-  class << self
-    private
+  class TeeLogger
+    extend Forwardable
 
-    def define_singleton_methods_for_setup
-      %i(logdev shift_age shift_size).each do |name|
-        define_singleton_method(name) do
-          instance_variable_get("@#{name}".to_sym)
-        end
-        # private_class_method name
+    attr_reader :logger, :console
 
-        define_singleton_method("#{name}=") do |arg|
-          instance_variable_set("@#{name}".to_sym, arg)
-        end
-        # private_class_method "#{name}=".to_sym
-      end
+    def initialize(logdev = DEFAULT_FILE, shift_age = 0, shift_size = 1_048_576)
+      @base_logger = Base.new(logdev, shift_age, shift_size)
+      @logger  = @base_logger.logger
+      @console = @base_logger.console
     end
 
-    def base_logger
-      @base_logger ||= Base.new(logdev, shift_age, shift_size)
-    end
+    # logging methods.
+    def_delegators :@base_logger, *LOGGING_METHODS
 
-    def define_singleton_methods_for_logging
-      LOGGING_METHODS.each do |name|
-        define_singleton_method(name) do |progname = nil, &block|
-          base_logger.send(name, progname, &block)
-        end
+    # check logging level methods.
+    def_delegators :@base_logger, *LOGGING_METHODS.map { |v| "#{v}?" }
 
-        define_singleton_method("#{name}?") do
-          base_logger.send("#{name}?")
-        end
-      end
-    end
+    # others.
+    def_delegators :@base_logger, :progname, :progname=
 
-    def define_singleton_methods_for_logging_with_prefix
-      %i(logger console).each do |pre|
-        LOGGING_METHODS.each do |name|
-          define_singleton_method("#{pre}_#{name}") do |progname = nil, &block|
-            base_logger.send(pre).send(name, progname, &block)
-          end
+    # TODO: Implement
+    # def_delegators :@base_logger, :datetime_format, :datetime_format=
+    # def_delegators :@base_logger, :formatter, :formatter=
 
-          define_singleton_method("#{pre}_#{name}?") do
-            base_logger.send(pre).send("#{name}?")
-          end
-        end
-      end
-    end
+    # TODO: Implement
+    # def_delegator :@base_logger, :close
+    # def_delegators :@base_logger, :level, :sev_threshold
+    # def_delegators :@base_logger, :add, :log
+    # def_delegators :@base_logger, :unknown, :unknown?
   end
 end
