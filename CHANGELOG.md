@@ -1,3 +1,6 @@
+# 2.2.0
+- disabling and enabling
+
 # 2.1.1
 - refactoring of test case
   - Introduced capture_stdout

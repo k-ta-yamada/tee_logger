@@ -47,11 +47,7 @@ tl.console.info('console only')
 
 # logfile only
 tl.logger.info('logger only')
-```
 
-## TODO feature
-
-```
 # disable and enable console output
 tl.disable(:console)
 tl.info 'this message is logfile only'
