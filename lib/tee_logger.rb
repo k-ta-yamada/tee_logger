@@ -36,14 +36,14 @@ module TeeLogger
       end
     end
 
-    # TODO: Implement!
-    def disable(_target)
-      # undef_method, remove_method ....
+    # TODO: Too miscellaneous
+    def disable(target)
+      instance_variable_get("@#{target}").formatter = proc { |s, dt, p, m| }
     end
 
-    # TODO: Implement!
-    def enable(_target)
-      # undef_method, remove_method ....
+    # TODO: Too miscellaneous
+    def enable(target)
+      instance_variable_get("@#{target}").formatter = Logger::Formatter.new
     end
 
     def progname
@@ -53,12 +53,14 @@ module TeeLogger
     end
 
     def progname=(name = nil)
-      @logger.progname  = name
+      # TODO: which?
+      # @logger.progname  = name
       @console.progname = name
     end
 
     def formatter
-      @logger.formatter
+      # TODO: which?
+      # @logger.formatter
       @console.formatter
     end
 
