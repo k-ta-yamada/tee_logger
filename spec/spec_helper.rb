@@ -12,7 +12,7 @@ def logging_methods
   described_class.const_get(:LOGGING_METHODS)
 end
 
-def regexp(severity, prog, message)
+def regexp(severity = :debug, prog = nil, message = 'nil')
   label    = severity.to_s.upcase.chr
   datetime = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}'
   pid      = '\d{1,5}'

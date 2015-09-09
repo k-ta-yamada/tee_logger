@@ -37,12 +37,15 @@ module TeeLogger
     end
 
     # TODO: Implement!
-    def disable(_target)
+    def disable(target)
+      # binding.pry
+      instance_variable_get("@#{target}").formatter = proc { |s, dt, p, m| }
       # undef_method, remove_method ....
     end
 
     # TODO: Implement!
-    def enable(_target)
+    def enable(target)
+      instance_variable_get("@#{target}").formatter = Logger::Formatter.new
       # undef_method, remove_method ....
     end
 
@@ -53,12 +56,14 @@ module TeeLogger
     end
 
     def progname=(name = nil)
-      @logger.progname  = name
+      # TODO: which?
+      # @logger.progname  = name
       @console.progname = name
     end
 
     def formatter
-      @logger.formatter
+      # TODO: which?
+      # @logger.formatter
       @console.formatter
     end
 

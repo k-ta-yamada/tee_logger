@@ -46,8 +46,42 @@ describe TeeLogger do
     end
   end
 
-  xdescribe 'disable' do
-    it {}
+  describe '#disable' do
+    context 'logger' do
+      subject(:tl) do
+        filename = "#{File.basename(__FILE__, '.rb')}.log"
+        described_class.new(File.open(filename, 'w'))
+      end
+
+      logging_methods.each do |method|
+        it "##{method}" do
+          tl.debug
+          tl.disable :logger
+          tl.send(method, message)
+
+          expected = regexp
+          result   = tail(filename, 1).last
+          expect(result).to match(expected)
+        end
+      end
+    end
+
+    context 'console' do
+      subject(:tl) do
+        filename = "#{File.basename(__FILE__, '.rb')}.log"
+        described_class.new(File.open(filename, 'w'))
+      end
+
+      logging_methods.each do |method|
+        it "##{method}" do
+          result = capture_stdout do
+            tl.disable :console
+            tl.send(method, message)
+          end
+          expect(result).to be_empty
+        end
+      end
+    end
   end
 
   xdescribe 'enable' do
