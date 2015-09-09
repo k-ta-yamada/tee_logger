@@ -10,12 +10,12 @@ module TeeLogger
     TeeLogger.new(logdev, shift_age, shift_size)
   end
 
+  # main
   class TeeLogger
     attr_reader :logger, :console
 
     def initialize(logdev = DEFAULT_FILE, shift_age = 0, shift_size = 1_048_576)
       @logger  = Logger.new(logdev, shift_age, shift_size)
-      # @console = Logger.new(STDOUT)
       @console = Logger.new($stdout)
     end
 
