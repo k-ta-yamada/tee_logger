@@ -15,7 +15,8 @@ module TeeLogger
 
     def initialize(logdev = DEFAULT_FILE, shift_age = 0, shift_size = 1_048_576)
       @logger  = Logger.new(logdev, shift_age, shift_size)
-      @console = Logger.new(STDOUT)
+      # @console = Logger.new(STDOUT)
+      @console = Logger.new($stdout)
     end
 
     # logging methods.
@@ -36,12 +37,12 @@ module TeeLogger
     end
 
     # TODO: Implement!
-    def disable(target)
+    def disable(_target)
       # undef_method, remove_method ....
     end
 
     # TODO: Implement!
-    def enable(target)
+    def enable(_target)
       # undef_method, remove_method ....
     end
 
@@ -54,6 +55,16 @@ module TeeLogger
     def progname=(name = nil)
       @logger.progname  = name
       @console.progname = name
+    end
+
+    def formatter
+      @logger.formatter
+      @console.formatter
+    end
+
+    def formatter=(formatter)
+      @logger.formatter  = formatter
+      @console.formatter = formatter
     end
 
     # def close

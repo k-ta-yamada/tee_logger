@@ -27,4 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry-doc'
   spec.add_development_dependency 'pry-theme'
   spec.add_development_dependency 'rubocop'
+
+  spec.add_development_dependency 'capture_stdout'
 end
