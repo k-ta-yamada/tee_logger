@@ -52,10 +52,10 @@ require 'tee_logger'
 tl = TeeLogger.new
 
 # let's logging
-tl.debug 'hello'                      # => D, [2015-09-10T00:36:45.925312 #16227] DEBUG -- : hello
-tl.debug(:progname) { 'hello world' } # => D, [2015-09-10T00:37:31.940226 #16227] DEBUG -- progname: hello world
+tl.debug 'hello'
+tl.debug(:progname) { 'hello world' }
 tl.progname = 'App'
-tl.debug 'hello tee_logger'           # => D, [2015-09-10T00:38:38.704274 #16227] DEBUG -- App: hello tee_logger
+tl.debug 'hello tee_logger'
 
 # disable console output
 tl.disable(:console)
@@ -73,12 +73,18 @@ tl.info 'this message is consle only'
 tl.enable(:logfile)
 tl.info 'this message is logfile and console'
 
+# disabe in block
+tl.disable(:console) do
+  tl.info 'this message is logfile only'
+end
+tl.info 'this message is logfile and console'
+
 # and others like Logger's
 tl.debug? # => true
-tl.info?  # => true
-tl.warn?  # => true
-tl.error? # => true
-tl.fatal? # => true
+tl.info?
+tl.warn?
+tl.error?
+tl.fatal?
 
 tl.level # => 0
 tl.level = Logger::INFO

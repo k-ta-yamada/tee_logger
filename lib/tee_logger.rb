@@ -102,6 +102,7 @@ module TeeLogger
 
     # @todo Too miscellaneous
     # @param target [String, Symbol]
+    # @yield before target disable, after target enable.
     def disable(target)
       if block_given?
         disable(target)

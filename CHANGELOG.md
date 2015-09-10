@@ -1,3 +1,7 @@
+# v2.4.1
+- update README.md
+- and YARD comment
+
 # v2.4.0
 - TeeLogger#disable is allow block given
 
