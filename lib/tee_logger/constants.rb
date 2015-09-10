@@ -2,6 +2,9 @@ require 'logger'
 
 # namespace
 module TeeLogger
+  # no param of filename, set this filename
   DEFAULT_FILE = './tee_logger.log'
-  LOGGING_METHODS = %i(debug info warn error fatal).freeze
+
+  # Implements targets
+  LOGGING_METHODS = [:debug, :info, :warn, :error, :fatal].freeze
 end

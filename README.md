@@ -5,14 +5,20 @@
 
 - [Rubygems.org](https://rubygems.org/gems/tee_logger)
 - [GitHub](https://github.com/k-ta-yamada/tee_logger)
+- [RubyDoc.info](http://www.rubydoc.info/gems/tee_logger/2.2.0)
 
 # TeeLogger
 
-logging to logfile and standard output.
+logging to file and standard output.
+require standard library only.
 
-Characteristic
+
+## Characteristic
+
 - simple: use standard lib only.
 - like Logger: see usage.
+- enabled or disabled by switching the output of the console and the logfile.
+
 
 ## Installation
 
@@ -30,42 +36,63 @@ Or install it yourself as:
 
     $ gem install tee_logger
 
+
 ## Usage
 
 ```ruby
 require 'tee_logger'
 
-# Logger.new like options
-tl = TeeLogger.new('./tee_logger.log', 5, 1_024)
+# Logger.new like options(logdev, shift_age, shift_size)
+# options default value is
+#   logdev     = './tee_logger.log'
+#   shift_age  = 0
+#   shift_size = 1_048_576
+tl = TeeLogger.new
 
-tl.debug(:progname) { 'hello world' }
+# let's logging
+tl.debug 'hello'                      # => D, [2015-09-10T00:36:45.925312 #16227] DEBUG -- : hello
+tl.debug(:progname) { 'hello world' } # => D, [2015-09-10T00:37:31.940226 #16227] DEBUG -- progname: hello world
 tl.progname = 'App'
-tl.debug('hello tee_logger')
+tl.debug 'hello tee_logger'           # => D, [2015-09-10T00:38:38.704274 #16227] DEBUG -- App: hello tee_logger
 
-# console only
-tl.console.info('console only')
-
-# logfile only
-tl.logger.info('logger only')
-
-# disable and enable console output
+# disable console output
 tl.disable(:console)
 tl.info 'this message is logfile only'
+
+# enable console output
 tl.enable(:console)
 tl.info 'this message is logfile and console'
 
-# disable and enable logfile output
-tl.disable(:logger)
+# disable logfile output
+tl.disable(:logfile)
 tl.info 'this message is consle only'
-tl.enable(:logger)
+
+# enable logfile output
+tl.enable(:logfile)
 tl.info 'this message is logfile and console'
+
+# and others like Logger's
+tl.debug? # => true
+tl.info?  # => true
+tl.warn?  # => true
+tl.error? # => true
+tl.fatal? # => true
+
+tl.level # => 0
+tl.level = Logger::INFO
+tl.debug 'this message is not logging'
+
+tl.formatter # => nil or Proc
+tl.formatter = proc {|severity, datetime, progname, message| "#{severity}:#{message}" }
 ```
+
 
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
 
 ## Contributing
 

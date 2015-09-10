@@ -9,8 +9,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ['k-ta-yamada']
   spec.email         = ['key.luvless@gmail.com']
 
-  spec.summary       = 'logging to file and standard output'
-  spec.description   = 'logging to file and standard output'
+  spec.summary       = 'logging to file and standard output.'
+  spec.description   =
+    'logging to file and standard output. require standard library only.'
+
   spec.homepage      = 'https://github.com/k-ta-yamada/tee_logger'
   spec.license       = 'MIT'
 
@@ -22,6 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.10'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'fuubar'
 
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'pry-doc'
