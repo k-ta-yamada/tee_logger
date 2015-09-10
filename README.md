@@ -1,5 +1,7 @@
 [![Gem Version](https://badge.fury.io/rb/tee_logger.svg)](http://badge.fury.io/rb/tee_logger)
 [![Build Status](https://travis-ci.org/k-ta-yamada/tee_logger.svg)](https://travis-ci.org/k-ta-yamada/tee_logger)
+[![Code Climate](https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/gpa.svg)](https://codeclimate.com/github/k-ta-yamada/tee_logger)
+[![Test Coverage](https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/coverage.svg)](https://codeclimate.com/github/k-ta-yamada/tee_logger/coverage)
 
 > Sorry, I changed Usage from version 2.0.0
 
