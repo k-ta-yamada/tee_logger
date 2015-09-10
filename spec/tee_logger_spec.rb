@@ -99,6 +99,7 @@ describe TeeLogger do
         end
         logfile_result = tail(filename).last
 
+        expect(tl.formatter).to eq(formatter)
         expect(console_result).to match(expected)
         expect(logfile_result).to match(expected)
       end
