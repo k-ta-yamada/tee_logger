@@ -8,11 +8,14 @@
 
 # TeeLogger
 
-logging to logfile and standard output.
+logging to file and standard output.
+require standard library only.
 
-Characteristic
+## Characteristic
+
 - simple: use standard lib only.
 - like Logger: see usage.
+- enabled or disabled by switching the output of the console and the logfile.
 
 ## Installation
 
@@ -35,30 +38,75 @@ Or install it yourself as:
 ```ruby
 require 'tee_logger'
 
-# Logger.new like options
-tl = TeeLogger.new('./tee_logger.log', 5, 1_024)
+# Logger.new like options(logdev, shift_age, shift_size)
+# options default value is
+#   logdev     = './tee_logger.log'
+#   shift_age  = 0
+#   shift_size = 1_048_576
+tl = TeeLogger.new
 
-tl.debug(:progname) { 'hello world' }
+# let's logging
+tl.debug 'hello'                      # => D, [2015-09-10T00:36:45.925312 #16227] DEBUG -- : hello
+tl.debug(:progname) { 'hello world' } # => D, [2015-09-10T00:37:31.940226 #16227] DEBUG -- progname: hello world
 tl.progname = 'App'
-tl.debug('hello tee_logger')
+tl.debug 'hello tee_logger'           # => D, [2015-09-10T00:38:38.704274 #16227] DEBUG -- App: hello tee_logger
 
-# console only
-tl.console.info('console only')
-
-# logfile only
-tl.logger.info('logger only')
-
-# disable and enable console output
+# disable console output
 tl.disable(:console)
 tl.info 'this message is logfile only'
+
+# enable console output
 tl.enable(:console)
 tl.info 'this message is logfile and console'
 
-# disable and enable logfile output
-tl.disable(:logger)
+# disable logfile output
+tl.disable(:logfile)
 tl.info 'this message is consle only'
-tl.enable(:logger)
+
+# enable logfile output
+tl.enable(:logfile)
 tl.info 'this message is logfile and console'
+
+# and others like Logger's
+tl.debug? # => true
+tl.info?  # => true
+tl.warn?  # => true
+tl.error? # => true
+tl.fatal? # => true
+
+tl.level # => 0
+tl.level = Logger::INFO
+tl.debug 'this message is not logging'
+
+# TODO:
+# tl.formatter # => nil or Proc
+# tl.formatter = proc {|severity, datetime, progname, message| "#{severity}:#{message}" }
+```
+
+### all instance_methods list
+
+```ruby
+TeeLogger.new.methods - Object.new.methods
+# => [:debug?,
+#     :info?,
+#     :warn?,
+#     :error?,
+#     :fatal?,
+#     :debug,
+#     :info,
+#     :warn,
+#     :error,
+#     :fatal,
+#     :level,
+#     :level=,
+#     :sev_threshold,
+#     :sev_threshold=,
+#     :progname,
+#     :progname=,
+#     :formatter,
+#     :formatter=,
+#     :disable,
+#     :enable]
 ```
 
 ## Development

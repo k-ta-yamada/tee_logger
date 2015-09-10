@@ -1,3 +1,9 @@
+# 2.3.0
+- remove TeeLogger.attr_reader
+  - and rename instance variable: @logger => @logfile
+- `#level` and `level=`
+- `#formatter` and `formatter=`
+
 # 2.2.0
 - disabling and enabling
 

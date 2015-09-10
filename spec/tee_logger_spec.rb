@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe TeeLogger do
-  it 'has a version number' do
-    expect(described_class.const_get(:VERSION)).not_to be nil
-  end
-
   subject(:tl) do
     filename = "#{File.basename(__FILE__, '.rb')}.log"
     described_class.new(File.open(filename, 'w'))
@@ -29,114 +25,106 @@ describe TeeLogger do
       context "##{method}" do
         it 'only progname' do
           expected = regexp(method, nil, message)
-          result   = capture_stdout { tl.send(method, message) }
-          expect(result.chomp).to match(expected)
+          console_result = capture_stdout { tl.send(method, message) }
+          logfile_result = tail(filename).last
+          expect(console_result).to match(expected)
+          expect(logfile_result).to match(expected)
         end
+
         it 'only block' do
           expected = regexp(method, nil, block.call)
-          result   = capture_stdout { tl.send(method, &block) }
-          expect(result.chomp).to match(expected)
+          console_result = capture_stdout { tl.send(method, &block) }
+          logfile_result = tail(filename).last
+          expect(console_result).to match(expected)
+          expect(logfile_result).to match(expected)
         end
+
         it 'progname and block' do
           expected = regexp(method, progname, block.call)
-          result   = capture_stdout { tl.send(method, progname, &block) }
-          expect(result.chomp).to match(expected)
+          console_result = capture_stdout { tl.send(method, progname, &block) }
+          logfile_result = tail(filename).last
+          expect(console_result).to match(expected)
+          expect(logfile_result).to match(expected)
         end
+      end
+    end
+  end
+
+  describe 'setting level' do
+    Logger::Severity.constants.each do |const|
+      context "Severity:#{const}"do
+        logging_methods.each do |method|
+          it "##{method}" do
+            console_result = capture_stdout do
+              tl.level = Logger.const_get(const)
+              tl.send(method, message)
+            end.split("\n")
+            logfile_result = tail(filename)
+
+            expected = Logger.const_get(method.upcase) >= tl.level ? 1 : 0
+            expect(console_result.size).to eq(expected)
+            expect(logfile_result.size).to eq(expected)
+          end
+        end
+      end
+    end
+  end
+
+  describe 'setting progname' do
+    logging_methods.each do |method|
+      it "##{method}" do
+        expected = regexp(method, progname, message)
+
+        console_result = capture_stdout do
+          tl.progname = progname
+          tl.send(method, message)
+        end
+        logfile_result = tail(filename).last
+
+        expect(console_result).to match(expected)
+        expect(logfile_result).to match(expected)
+      end
+    end
+  end
+
+  xdescribe 'formatter' do
+    logging_methods.each do |method|
+      it "##{method}" do
       end
     end
   end
 
   describe 'disabling and enabling' do
     context 'mode chenge target :console' do
-      subject(:tl) do
-        filename = "#{File.basename(__FILE__, '.rb')}.log"
-        described_class.new(File.open(filename, 'w'))
-      end
-
       logging_methods.each do |method|
         it "##{method}" do
-          result = capture_stdout do
+          console_result = capture_stdout do
             tl.send(method, message)
             tl.disable :console
             tl.send(method, message)
             tl.enable :console
             tl.send(method, message)
           end.split("\n")
-          expect(result.size).to eq(2)
+          logfile_result = tail(filename)
+          expect(console_result.size).to eq(2)
+          expect(logfile_result.size).to eq(3)
         end
       end
     end
 
-    context 'logger' do
-      subject(:tl) do
-        filename = "#{File.basename(__FILE__, '.rb')}.log"
-        described_class.new(File.open(filename, 'w'))
-      end
-
+    context 'mode chang target :logfile' do
       logging_methods.each do |method|
         it "##{method}" do
-          tl.send(method, message)
-          tl.disable :logger
-          tl.send(method, message)
-          tl.enable :logger
-          tl.send(method, message)
-
-          result   = tail(filename, 10)
-          expect(result.size).to eq(2)
-        end
-      end
-    end
-  end
-
-  describe 'instance variables direct call' do
-    context '@console' do
-      context 'logging methods' do
-        logging_methods.each do |method|
-          context "##{method}" do
-            it 'only progname' do
-              expected = regexp(method, nil, message)
-              result   = capture_stdout { tl.console.send(method, message) }
-              expect(result.chomp).to match(expected)
-            end
-            it 'only block' do
-              expected = regexp(method, nil, block.call)
-              result   = capture_stdout { tl.console.send(method, &block) }
-              expect(result.chomp).to match(expected)
-            end
-            it 'progname and block' do
-              expected = regexp(method, progname, block.call)
-              result   =
-                capture_stdout { tl.console.send(method, progname, &block) }
-              expect(result.chomp).to match(expected)
-            end
-          end
-        end
-      end
-    end
-
-    context '@logger' do
-      context 'logging methods' do
-        logging_methods.each do |method|
-          context "##{method}" do
-            it 'only progname' do
-              tl.logger.send(method, message)
-              expected = regexp(method, nil, message)
-              result   = tail(filename).last
-              expect(result.chomp).to match(expected)
-            end
-            it 'only block' do
-              tl.logger.send(method, &block)
-              expected = regexp(method, nil, block.call)
-              result   = tail(filename).last
-              expect(result.chomp).to match(expected)
-            end
-            it 'progname and block' do
-              tl.logger.send(method, progname, &block)
-              expected = regexp(method, progname, block.call)
-              result   = tail(filename).last
-              expect(result.chomp).to match(expected)
-            end
-          end
+          console_result = capture_stdout do
+            tl.send(method, message)
+            tl.disable :logfile
+            tl.send(method, message)
+            tl.enable :logfile
+            tl.send(method, message)
+          end.split("\n")
+          logfile_result = tail(filename)
+          expect(console_result.size).to eq(3)
+          expect(logfile_result.size).to eq(2)
         end
       end
     end
