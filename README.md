@@ -7,7 +7,7 @@
 
 - [Rubygems.org](https://rubygems.org/gems/tee_logger)
 - [GitHub](https://github.com/k-ta-yamada/tee_logger)
-- [RubyDoc.info](http://www.rubydoc.info/gems/tee_logger/2.2.0)
+- [RubyDoc.info](http://www.rubydoc.info/gems/tee_logger)
 
 # TeeLogger
 
