@@ -16,7 +16,9 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/k-ta-yamada/tee_logger'
   spec.license       = 'MIT'
 
+  # rubocop:disable Metrics/LineLength
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  # rubocop:enable Metrics/LineLength
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
