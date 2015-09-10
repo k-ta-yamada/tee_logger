@@ -107,6 +107,40 @@ describe TeeLogger do
   end
 
   describe 'disabling and enabling' do
+    context 'disabling block_given?' do
+      context 'disable logfile' do
+        logging_methods.each do |method|
+          it "##{method}" do
+            console_result = capture_stdout do
+              tl.send(method, message)
+              tl.disable(:logfile) { tl.send(method, message) }
+              tl.send(method, message)
+            end.split("\n")
+            logfile_result = tail(filename)
+
+            expect(console_result.size).to eq(3)
+            expect(logfile_result.size).to eq(2)
+          end
+        end
+      end
+
+      context 'disable console' do
+        logging_methods.each do |method|
+          it "##{method}" do
+            console_result = capture_stdout do
+              tl.send(method, message)
+              tl.disable(:console) { tl.send(method, message) }
+              tl.send(method, message)
+            end.split("\n")
+            logfile_result = tail(filename)
+
+            expect(console_result.size).to eq(2)
+            expect(logfile_result.size).to eq(3)
+          end
+        end
+      end
+    end
+
     context 'mode chenge target :console' do
       logging_methods.each do |method|
         it "##{method}" do
