@@ -103,7 +103,7 @@ module TeeLogger
     # @todo Too miscellaneous
     # @param target [String, Symbol]
     def disable(target)
-      instance_variable_get("@#{target}").formatter = proc { |_, _, _, _| }
+      instance_variable_get("@#{target}").formatter = proc { |_, _, _, _| '' }
     end
 
     # @todo Too miscellaneous

@@ -1,3 +1,7 @@
+# 2.3.1
+- refactoring
+  - TeeLogger#disable
+
 # 2.3.0
 - remove TeeLogger.attr_reader
   - and rename instance variable: @logger => @logfile
