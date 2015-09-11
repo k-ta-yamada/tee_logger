@@ -1,5 +1,13 @@
 require 'codeclimate-test-reporter'
-CodeClimate::TestReporter.start
+require 'simplecov-console'
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  CodeClimate::TestReporter::Formatter,
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::Console
+]
+# CodeClimate::TestReporter.start
+SimpleCov.start
+
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'tee_logger'
 require 'pry'
