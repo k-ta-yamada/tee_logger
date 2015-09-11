@@ -13,15 +13,6 @@ module TeeLogger
   # main
   # @see http://www.rubydoc.info/stdlib/logger/Logger Logger
   class TeeLogger
-    # @param logdev String
-    # @param shift_age Integer
-    # @param shift_size Integer
-    # @see Logger#initialize
-    def initialize(logdev = DEFAULT_FILE, shift_age = 0, shift_size = 1_048_576)
-      @logfile = Logger.new(logdev, shift_age, shift_size)
-      @console = Logger.new($stdout)
-    end
-
     class << self
       private
 
@@ -47,11 +38,14 @@ module TeeLogger
       end
     end
 
-    define_loglevel_check_methods :debug?
-    define_loglevel_check_methods :info?
-    define_loglevel_check_methods :warn?
-    define_loglevel_check_methods :error?
-    define_loglevel_check_methods :fatal?
+    # @param logdev [String]
+    # @param shift_age [Integer]
+    # @param shift_size [Integer]
+    # @see Logger#initialize
+    def initialize(logdev = DEFAULT_FILE, shift_age = 0, shift_size = 1_048_576)
+      @logfile = Logger.new(logdev, shift_age, shift_size)
+      @console = Logger.new($stdout)
+    end
 
     define_logging_methods :debug
     define_logging_methods :info
@@ -59,19 +53,25 @@ module TeeLogger
     define_logging_methods :error
     define_logging_methods :fatal
 
+    define_loglevel_check_methods :debug?
+    define_loglevel_check_methods :info?
+    define_loglevel_check_methods :warn?
+    define_loglevel_check_methods :error?
+    define_loglevel_check_methods :fatal?
+
     # TODO: which value?
     # @return [Integer]
     def level
       @logfile.level
       @console.level
     end
+    alias_method :sev_threshold, :level
 
     # @param level [Integer]
     def level=(level)
       @logfile.level = level
       @console.level = level
     end
-    alias_method :sev_threshold,  :level
     alias_method :sev_threshold=, :level=
 
     # TODO: both values?

@@ -11,18 +11,18 @@ describe TeeLogger do
   let(:block)    { proc { 'baz' } }
   let(:formatter) { proc { |s, _, _, m| "#{s}:#{m}" } }
 
-  describe 'logging level methods' do
-    logging_methods.map { |v| "#{v}?" }.each do |method|
-      context "##{method}" do
-        subject { tl.send(method) }
-        it { is_expected.to be_truthy }
-      end
-    end
-  end
-
   describe 'logging methods' do
     logging_methods.each do |method|
       context "##{method}" do
+        specify { expect { tl.send(method) }.to output.to_stdout }
+
+        specify 'only progname' do
+          expected = regexp(method, nil, message)
+          expect { tl.send(method, message) }.to output(expected).to_stdout
+          logfile_result = tail(filename).last
+          expect(logfile_result).to match(expected)
+        end
+
         it 'only progname' do
           expected = regexp(method, nil, message)
           console_result = capture_stdout { tl.send(method, message) }
@@ -46,6 +46,15 @@ describe TeeLogger do
           expect(console_result).to match(expected)
           expect(logfile_result).to match(expected)
         end
+      end
+    end
+  end
+
+  describe 'logging level methods' do
+    logging_methods.map { |v| "#{v}?" }.each do |method|
+      context "##{method}" do
+        subject { tl.send(method) }
+        it { is_expected.to be_truthy }
       end
     end
   end
@@ -107,7 +116,7 @@ describe TeeLogger do
   end
 
   describe 'disabling and enabling' do
-    context 'disabling block_given?' do
+    describe 'disabling block_given?' do
       context 'disable logfile' do
         logging_methods.each do |method|
           it "##{method}" do
