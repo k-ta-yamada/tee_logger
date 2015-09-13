@@ -2,8 +2,8 @@ require 'codeclimate-test-reporter'
 require 'simplecov-console'
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   CodeClimate::TestReporter::Formatter,
-  SimpleCov::Formatter::HTMLFormatter,
-  SimpleCov::Formatter::Console]
+  SimpleCov::Formatter::Console,
+  SimpleCov::Formatter::HTMLFormatter,]
 SimpleCov.start
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
@@ -52,5 +52,5 @@ def tail(file, n = 10)
   File.open(file) do |f|
     result = f.readlines.last(n)
   end
-  result
+  result.map(&:chomp)
 end

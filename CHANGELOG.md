@@ -1,3 +1,8 @@
+# v2.5.0
+- level, progname and formatter were changed to instance variable
+- refactoring: disabling and enabling
+- rm ./lib/tee_logger/constants.rb. Constants move to ./lib/tee_logger.rb
+
 # v2.4.1
 - update README.md
 - and YARD comment

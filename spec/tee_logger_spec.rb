@@ -9,20 +9,11 @@ describe TeeLogger do
   let(:progname) { 'Foo' }
   let(:message)  { 'bar' }
   let(:block)    { proc { 'baz' } }
-  let(:formatter) { proc { |s, _, _, m| "#{s}:#{m}" } }
+  let(:formatter) { proc { |s, _, _, m| "#{s}:#{m}\n" } }
 
   describe 'logging methods' do
     logging_methods.each do |method|
       context "##{method}" do
-        specify { expect { tl.send(method) }.to output.to_stdout }
-
-        specify 'only progname' do
-          expected = regexp(method, nil, message)
-          expect { tl.send(method, message) }.to output(expected).to_stdout
-          logfile_result = tail(filename).last
-          expect(logfile_result).to match(expected)
-        end
-
         it 'only progname' do
           expected = regexp(method, nil, message)
           console_result = capture_stdout { tl.send(method, message) }
@@ -116,23 +107,28 @@ describe TeeLogger do
   end
 
   describe 'disabling and enabling' do
-    describe 'disabling block_given?' do
-      context 'disable logfile' do
-        logging_methods.each do |method|
-          it "##{method}" do
-            console_result = capture_stdout do
-              tl.send(method, message)
-              tl.disable(:logfile) { tl.send(method, message) }
-              tl.send(method, message)
-            end.split("\n")
-            logfile_result = tail(filename)
-
-            expect(console_result.size).to eq(3)
-            expect(logfile_result.size).to eq(2)
-          end
-        end
+    context 'format change before disable' do
+      it 'same format before disabling' do
+        console_result = capture_stdout do
+          tl.formatter = proc { |_, _, _, message| "#{message}\n" }
+          tl.disable(:console) { tl.debug(message) }
+          tl.debug(message)
+        end.split("\n").last
+        expect(console_result).to eq(message)
       end
 
+      it 'same format before disabling' do
+        capture_stdout do
+          tl.formatter = proc { |_, _, _, message| "#{message}\n" }
+          tl.disable(:logfile) { tl.debug(message) }
+          tl.debug(message)
+        end
+        logfile_result = tail(filename).last
+        expect(logfile_result).to eq(message)
+      end
+    end
+
+    context 'disabling block_given?' do
       context 'disable console' do
         logging_methods.each do |method|
           it "##{method}" do
@@ -145,6 +141,22 @@ describe TeeLogger do
 
             expect(console_result.size).to eq(2)
             expect(logfile_result.size).to eq(3)
+          end
+        end
+      end
+
+      context 'disable logfile' do
+        logging_methods.each do |method|
+          it "##{method}" do
+            console_result = capture_stdout do
+              tl.send(method, message)
+              tl.disable(:logfile) { tl.send(method, message) }
+              tl.send(method, message)
+            end.split("\n")
+            logfile_result = tail(filename)
+
+            expect(console_result.size).to eq(3)
+            expect(logfile_result.size).to eq(2)
           end
         end
       end
