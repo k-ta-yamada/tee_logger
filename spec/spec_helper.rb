@@ -36,21 +36,30 @@ def logging_methods
 end
 
 # like log format
-def regexp(severity = :debug, prog = nil, message = 'nil')
+def regexp(severity = :debug, progname = nil, message = 'nil')
   label    = severity.to_s.upcase.chr
   datetime = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}'
   pid      = '\d{1,5}'
-  string   = "#{label},\s\\[#{datetime}\s##{pid}\\]" \
-             "\s\s?#{severity.upcase}\s--\s#{prog}:\s#{message}"
+  string   = "#{label},\s\\[#{datetime}\s\##{pid}\\]" \
+             "\s\s?#{severity.upcase}\s--\s#{progname}:\s#{message}"
   Regexp.new(string)
 end
 
+LOGFILE_NAME = 'tee_logger_spec_fakefs.log'
+
 # TODO: Too miscellaneous
 # simplicity tail
-def tail(file, n = 10)
+# @result (Array) chomped element
+def tail_logfile(n = 10, file = LOGFILE_NAME)
   result = []
   File.open(file) do |f|
     result = f.readlines.last(n)
   end
   result.map(&:chomp)
+end
+
+# @result (Array) chomped element
+def tail_console(n = 10)
+  result = capture_stdout { yield }
+  result.split("\n").last(n).map(&:chomp)
 end

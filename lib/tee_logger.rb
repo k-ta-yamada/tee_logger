@@ -18,17 +18,6 @@ module TeeLogger
   # @see http://www.rubydoc.info/stdlib/logger/Logger Logger
   class TeeLogger
     class << self
-      # @!macro [attach] loglevel_check_methods
-      #   @!method $1(name)
-      #   @return [Boolean]
-      def define_loglevel_check_methods(name)
-        define_method(name) do
-          @logfile.send(name)
-          @console.send(name)
-        end
-      end
-      private :define_loglevel_check_methods
-
       # @!macro [attach] logging_methods
       #   @!method $1(progname = nil, &block)
       #   logging $1 level message.
@@ -40,6 +29,17 @@ module TeeLogger
         end
       end
       private :define_logging_methods
+
+      # @!macro [attach] loglevel_check_methods
+      #   @!method $1(name)
+      #   @return [Boolean]
+      def define_loglevel_check_methods(name)
+        define_method(name) do
+          @logfile.send(name)
+          @console.send(name)
+        end
+      end
+      private :define_loglevel_check_methods
     end
 
     attr_reader :level, :progname, :formatter
@@ -88,27 +88,27 @@ module TeeLogger
       @formatter = formatter
     end
 
-    # @param target [String, Symbol]
-    # @yield before target disable, after target enable.
-    def disable(target)
+    # @param logdev_name [String, Symbol]
+    # @yield before logdev_name disable, after logdev_name enable.
+    def disable(logdev_name)
       if block_given?
-        disable(target)
+        disable(logdev_name)
         yield
-        enable(target)
+        enable(logdev_name)
       else
-        target_instance(target).formatter = proc { |_, _, _, _| '' }
+        logdev_instance(logdev_name).formatter = proc { |_, _, _, _| '' }
       end
     end
 
-    # @param target [String, Symbol]
-    def enable(target)
-      target_instance(target).formatter = @formatter
+    # @param logdev_name [String, Symbol]
+    def enable(logdev_name)
+      logdev_instance(logdev_name).formatter = @formatter
     end
 
     private
 
-    def target_instance(target)
-      instance_variable_get("@#{target}")
+    def logdev_instance(logdev_name)
+      instance_variable_get("@#{logdev_name}")
     end
   end
 end
