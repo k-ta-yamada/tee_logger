@@ -19,13 +19,20 @@ module TeeLogger
   class TeeLogger
     class << self
       # @!macro [attach] logging_methods
-      #   @!method $1(progname = nil, &block)
+      #   @!method $1(progname = nil, disabling_target = nil, &block)
       #   logging $1 level message.
+      #   @param progname see also Logger
+      #   @param disabling_target (Symbol) valid values => [:console, :logfile]
+      #   @param &block see also Logger
       #   @return true
+      #   @see Logger
       def define_logging_methods(name)
-        define_method(name) do |progname = nil, &block|
-          @logfile.send(name, progname, &block)
-          @console.send(name, progname, &block)
+        define_method(name) do |progname = nil, disabling_target = nil, &block|
+          if disabling_target
+            disable(disabling_target) { logging(name, progname, &block) }
+          else
+            logging(name, progname, &block)
+          end
         end
       end
       private :define_logging_methods
@@ -35,8 +42,8 @@ module TeeLogger
       #   @return [Boolean]
       def define_loglevel_check_methods(name)
         define_method(name) do
-          @logfile.send(name)
           @console.send(name)
+          @logfile.send(name)
         end
       end
       private :define_loglevel_check_methods
@@ -49,8 +56,8 @@ module TeeLogger
     # @param shift_size [Integer]
     # @see Logger#initialize
     def initialize(logdev = DEFAULT_FILE, shift_age = 0, shift_size = 1_048_576)
-      @logfile = Logger.new(logdev, shift_age, shift_size)
       @console = Logger.new($stdout)
+      @logfile = Logger.new(logdev, shift_age, shift_size)
     end
 
     define_logging_methods :debug
@@ -67,25 +74,19 @@ module TeeLogger
 
     # @param level [Integer]
     def level=(level)
-      @logfile.level = level
-      @console.level = level
-      @level = level
+      @console.level = @logfile.level = @level = level
     end
     alias_method :sev_threshold, :level
     alias_method :sev_threshold=, :level=
 
     # @param name [String, Symbol]
     def progname=(name = nil)
-      @logfile.progname = name
-      @console.progname = name
-      @progname = name
+      @console.progname = @logfile.progname = @progname = name
     end
 
     # @param formatter
     def formatter=(formatter)
-      @logfile.formatter = formatter
-      @console.formatter = formatter
-      @formatter = formatter
+      @console.formatter = @logfile.formatter = @formatter = formatter
     end
 
     # @param logdev_name [String, Symbol]
@@ -106,6 +107,11 @@ module TeeLogger
     end
 
     private
+
+    def logging(name, progname, &block)
+      @console.send(name, progname, &block)
+      @logfile.send(name, progname, &block)
+    end
 
     def logdev_instance(logdev_name)
       instance_variable_get("@#{logdev_name}")

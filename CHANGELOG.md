@@ -1,3 +1,6 @@
+# v2.6.0
+- disabling option add to logging_methods
+
 # v2.5.0
 - level, progname and formatter were changed to instance variable
 - refactoring: disabling and enabling

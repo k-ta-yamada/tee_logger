@@ -47,7 +47,6 @@ end
 
 LOGFILE_NAME = 'tee_logger_spec_fakefs.log'
 
-# TODO: Too miscellaneous
 # simplicity tail
 # @result (Array) chomped element
 def tail_logfile(n = 10, file = LOGFILE_NAME)
