@@ -32,6 +32,30 @@ describe TeeLogger do
     context 'progname and block' do
       it_behaves_like 'logging', nil, 'App', proc { 'this is blocked message' }
     end
+
+    shared_examples 'with_disable' do |logdev_name, console_size, logfile_size|
+      context "disabling logdev_name=[:#{logdev_name}]" do
+        logging_methods.each do |name|
+          it "##{name}" do
+            console_result = tail_console do
+              tl.send(name, progname, logdev_name, &block)
+              tl.send(name, message, logdev_name)
+            end
+            logfile_result = tail_logfile
+
+            expect(console_result.size).to eq(console_size)
+            expect(logfile_result.size).to eq(logfile_size)
+
+            expected1 = regexp(name, progname, block.call)
+            expected2 = regexp(name, nil, message)
+            expect(console_result).to all(match(expected1).or match(expected2))
+            expect(logfile_result).to all(match(expected1).or match(expected2))
+          end
+        end
+      end
+    end
+    it_behaves_like 'with_disable', :console, 0, 2
+    it_behaves_like 'with_disable', :logfile, 2, 0
   end
 
   describe 'logging level methods' do
@@ -58,9 +82,9 @@ describe TeeLogger do
             expect(console_result.size).to eq(size)
             expect(logfile_result.size).to eq(size)
 
-            expected = size > 0 ? match(regexp(name, nil, message)) : be_nil
-            expect(console_result).to all(expected)
-            expect(logfile_result).to all(expected)
+            expected = regexp(name, nil, message)
+            expect(console_result).to all(match(expected).or be_nil)
+            expect(logfile_result).to all(match(expected).or be_nil)
           end
         end
       end
