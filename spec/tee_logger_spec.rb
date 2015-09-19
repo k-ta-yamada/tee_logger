@@ -202,4 +202,22 @@ describe TeeLogger do
       it_behaves_like 'block_given', :logfile, 3, 2
     end
   end
+
+  describe 'parallel' do
+    shared_examples 'in_xxx' do |method|
+      it "#{method}" do
+        console_result = tail_console do
+          Parallel.each((0..9), method => 10) do |i|
+            tl.info "#{Process.pid} #{Thread.current} #{i}"
+          end
+        end
+        logfile_result = tail_logfile(20)
+
+        expect(console_result.size).to eq(10)
+        expect(logfile_result.size).to eq(10)
+      end
+    end
+    it_behaves_like 'in_xxx', :in_threads
+    it_behaves_like 'in_xxx', :in_processes
+  end
 end

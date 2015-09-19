@@ -35,4 +35,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'capture_stdout'
   spec.add_development_dependency 'fakefs'
+  spec.add_development_dependency 'parallel'
 end
