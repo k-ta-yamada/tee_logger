@@ -1,3 +1,6 @@
+# v2.7.0
+- add datetime_format, datetime_format=
+
 # v2.6.0
 - disabling option add to logging_methods
 
