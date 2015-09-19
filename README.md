@@ -57,6 +57,10 @@ tl.debug(:progname) { 'hello world' }
 tl.progname = 'App'
 tl.debug 'hello tee_logger'
 
+# disable only when specified
+tl.info 'this message is logfile only', :console
+tl.info 'this message is console only', :logfile
+
 # disable console output
 tl.disable(:console)
 tl.info 'this message is logfile only'
