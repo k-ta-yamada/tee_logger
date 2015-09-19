@@ -96,6 +96,9 @@ tl.debug 'this message is not logging'
 
 tl.formatter # => nil or Proc
 tl.formatter = proc { |severity, datetime, progname, message| "#{severity}:#{message}" }
+
+tl.datetime_format # => nil or Proc
+tl.datetime_format = '%Y%m%d %H%M%S '
 ```
 
 

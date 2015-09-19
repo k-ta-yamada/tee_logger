@@ -37,9 +37,9 @@ def logging_methods
 end
 
 # like log format
-def regexp(severity = :debug, progname = nil, message = 'nil')
+def regexp(severity = :debug, progname = nil, message = 'nil', datetime = nil)
   label    = severity.to_s.upcase.chr
-  datetime = '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}'
+  datetime ||= '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}'
   pid      = '\d{1,5}'
   string   = "#{label},\s\\[#{datetime}\s\##{pid}\\]" \
              "\s\s?#{severity.upcase}\s--\s#{progname}:\s#{message}"

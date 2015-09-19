@@ -49,7 +49,7 @@ module TeeLogger
       private :define_loglevel_check_methods
     end
 
-    attr_reader :level, :progname, :formatter
+    attr_reader :level, :progname, :formatter, :datetime_format
 
     # @param logdev [String]
     # @param shift_age [Integer]
@@ -87,6 +87,13 @@ module TeeLogger
     # @param formatter
     def formatter=(formatter)
       @console.formatter = @logfile.formatter = @formatter = formatter
+    end
+
+    # @param formatter
+    def datetime_format=(format)
+      @console.datetime_format =
+        @logfile.datetime_format =
+          @datetime_format = format
     end
 
     # @param logdev_name [String, Symbol]

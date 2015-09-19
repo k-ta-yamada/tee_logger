@@ -125,6 +125,30 @@ describe TeeLogger do
     end
   end
 
+  describe 'datetime_format' do
+    let(:datetime_format)         { '%Y%m%d %H%M%S ' }
+    let(:datetime_format_reg_exp) { '\d{8}\s\d{6}' }
+
+    it { expect(tl.datetime_format).to be_nil }
+
+    context 'setting datetime_format' do
+      logging_methods.each do |name|
+        it "##{name}" do
+          console_result = tail_console do
+            tl.datetime_format = datetime_format
+            tl.send(name, message)
+          end
+          logfile_result = tail_logfile
+
+          expected = regexp(name, nil, message, datetime_format_reg_exp)
+          expect(console_result).to all(match(expected))
+          expect(logfile_result).to all(match(expected))
+          expect(tl.datetime_format).to eq(datetime_format)
+        end
+      end
+    end
+  end
+
   describe 'disabling and enabling' do
     context 'basic usage' do
       shared_examples 'mode_change' do |logdev_name, console_size, logfile_size|
