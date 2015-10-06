@@ -3,7 +3,8 @@
 [![Code Climate](https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/gpa.svg)](https://codeclimate.com/github/k-ta-yamada/tee_logger)
 [![Test Coverage](https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/coverage.svg)](https://codeclimate.com/github/k-ta-yamada/tee_logger/coverage)
 
-> Sorry, I changed Usage from version 2.0.0
+> Sorry. In from version 2 to version 3, changed usage.
+> see also [CHANGELOG.md](/CHANGELOG.md#v300).
 
 - [Rubygems.org](https://rubygems.org/gems/tee_logger)
 - [GitHub](https://github.com/k-ta-yamada/tee_logger)
@@ -17,7 +18,7 @@ require standard library only.
 
 ## Characteristic
 
-- simple: use standard lib only.
+- use standard lib only.
 - like Logger: see usage.
 - enabled or disabled by switching the output of the console and the logfile.
 
@@ -32,11 +33,15 @@ gem 'tee_logger'
 
 And then execute:
 
-    $ bundle
+```
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install tee_logger
+```
+$ gem install tee_logger
+```
 
 
 ## Usage
@@ -57,9 +62,19 @@ tl.debug(:progname) { 'hello world' }
 tl.progname = 'App'
 tl.debug 'hello tee_logger'
 
-# disable only when specified
-tl.info 'this message is logfile only', :console
-tl.info 'this message is console only', :logfile
+# enable only when specified
+tl.info 'this message is console and logfile'
+tl.info 'this message is console only', :console
+tl.info 'this message is logfile only', :logfile
+
+# log meassage indent
+tl.info 'hello'    # => 'hello'
+tl.info 'hello', 0 # => 'hello'
+tl.info 'hello', 2 # => '  hello'
+
+# enabling and indent
+tl.info 'this message is console only', 2, :console
+tl.info 'this message is console only', :console, 2
 
 # disable console output
 tl.disable(:console)

@@ -1,3 +1,9 @@
+# v3.0.0
+- [issue #4](https://github.com/k-ta-yamada/tee_logger/issues/4)
+  logging method's parametrer disabling_target change to enabling_targe
+- [issue #5](https://github.com/k-ta-yamada/tee_logger/issues/5)
+  log message indentation
+
 # v2.7.0
 - add datetime_format, datetime_format=
 
