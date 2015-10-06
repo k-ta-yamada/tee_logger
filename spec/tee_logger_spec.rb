@@ -33,8 +33,8 @@ describe TeeLogger do
       it_behaves_like 'logging', nil, 'App', proc { 'this is blocked message' }
     end
 
-    shared_examples 'with_disable' do |logdev_name, console_size, logfile_size|
-      context "disabling logdev_name=[:#{logdev_name}]" do
+    shared_examples 'with_enabling_target'do |logdev_name, c_size, l_size|
+      context "enabling logdev_name=[:#{logdev_name}]" do
         logging_methods.each do |name|
           it "##{name}" do
             console_result = tail_console do
@@ -43,8 +43,8 @@ describe TeeLogger do
             end
             logfile_result = tail_logfile
 
-            expect(console_result.size).to eq(console_size)
-            expect(logfile_result.size).to eq(logfile_size)
+            expect(console_result.size).to eq(c_size)
+            expect(logfile_result.size).to eq(l_size)
 
             expected1 = regexp(name, progname, block.call)
             expected2 = regexp(name, nil, message)
@@ -54,8 +54,72 @@ describe TeeLogger do
         end
       end
     end
-    it_behaves_like 'with_disable', :console, 0, 2
-    it_behaves_like 'with_disable', :logfile, 2, 0
+    it_behaves_like 'with_enabling_target', :console, 2, 0
+    it_behaves_like 'with_enabling_target', :logfile, 0, 2
+
+    shared_examples 'with_indent' do |indent_level, c_size, l_size|
+      context "disabling indent_level=[:#{indent_level}]" do
+        logging_methods.each do |name|
+          it "##{name}" do
+            console_result = tail_console do
+              tl.send(name, progname, indent_level, &block)
+              tl.send(name, message, indent_level)
+            end
+            logfile_result = tail_logfile
+
+            expect(console_result.size).to eq(c_size)
+            expect(logfile_result.size).to eq(l_size)
+
+            block_call = block.call
+            expected1 =
+              regexp(name, progname, "#{' ' * indent_level}#{block_call}")
+            expected2 = regexp(name, nil, "#{' ' * indent_level}#{message}")
+            expect(console_result).to all(match(expected1).or match(expected2))
+            expect(logfile_result).to all(match(expected1).or match(expected2))
+          end
+        end
+      end
+    end
+    it_behaves_like 'with_indent', 2, 2, 2
+    it_behaves_like 'with_indent', 2, 2, 2
+  end
+
+  describe 'message is nil or Symbol' do
+    context 'message is nil' do
+      it 'display string nil' do
+        console_result = tail_console do
+          tl.info nil
+        end
+        logfile_result = tail_logfile
+
+        expect(console_result).to all(match(regexp(:info, nil, nil)))
+        expect(logfile_result).to all(match(regexp(:info, nil, nil)))
+      end
+    end
+
+    context 'message is Symbol' do
+      it 'display string :symbol' do
+        console_result = tail_console do
+          tl.info :hello
+        end
+        logfile_result = tail_logfile
+
+        expect(console_result).to all(match(regexp(:info, nil, ':hello')))
+        expect(logfile_result).to all(match(regexp(:info, nil, ':hello')))
+      end
+    end
+  end
+
+  describe 'not correct logdev_name' do
+    it 'raises TeeLogger::Utils::IncorrectNameError' do
+      error_message =
+        'logdev_name=[:incorrect_name]:logdev_name is :console or :logfile'
+      expect { tl.info('hello', :incorrect_name) }.to raise_error do |error|
+        puts "error.class=[#{error.class}]"
+        expect(error.class).to eq(TeeLogger::Utils::IncorrectNameError)
+        expect(error.to_s).to eq(error_message)
+      end
+    end
   end
 
   describe 'logging level methods' do

@@ -1,3 +1,4 @@
+require 'tee_logger/utils'
 require 'tee_logger/version'
 require 'logger'
 
@@ -27,11 +28,16 @@ module TeeLogger
       #   @return true
       #   @see Logger
       def define_logging_methods(name)
-        define_method(name) do |progname = nil, disabling_target = nil, &block|
-          if disabling_target
-            disable(disabling_target) { logging(name, progname, &block) }
-          else
+        define_method(name) do |progname = nil, *options, &block|
+          opts = parse_to_hash_from(options)
+
+          disabling_target = reverse_target(opts[:enabling_target])
+          progname, block  = indentation(progname, block, opts[:indent_level])
+
+          if disabling_target.nil?
             logging(name, progname, &block)
+          else
+            disable(disabling_target) { logging(name, progname, &block) }
           end
         end
       end
@@ -49,6 +55,7 @@ module TeeLogger
       private :define_loglevel_check_methods
     end
 
+    include Utils
     attr_reader :level, :progname, :formatter, :datetime_format
 
     # @param logdev [String]
@@ -99,6 +106,7 @@ module TeeLogger
     # @param logdev_name [String, Symbol]
     # @yield before logdev_name disable, after logdev_name enable.
     def disable(logdev_name)
+      correct_name?(logdev_name)
       if block_given?
         disable(logdev_name)
         yield
@@ -110,6 +118,7 @@ module TeeLogger
 
     # @param logdev_name [String, Symbol]
     def enable(logdev_name)
+      correct_name?(logdev_name)
       logdev_instance(logdev_name).formatter = @formatter
     end
 
@@ -118,10 +127,6 @@ module TeeLogger
     def logging(name, progname, &block)
       @console.send(name, progname, &block)
       @logfile.send(name, progname, &block)
-    end
-
-    def logdev_instance(logdev_name)
-      instance_variable_get("@#{logdev_name}")
     end
   end
 end
