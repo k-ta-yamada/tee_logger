@@ -2,29 +2,26 @@
 module TeeLogger
   # util
   module Utils
+    # LOGDEV_NAMES not incuded error
     class IncorrectNameError < StandardError; end
-
+    #
+    class IncorrectOptionError < StandardError; end
+    # using private method #parse_to_hash
+    ParsedOption = Struct.new(:logdev_name, :indent_level)
     # defined log devices names
-    LOGDEVS = %i(console logfile)
+    LOGDEV_NAMES = [:console, :logfile]
+    # defined reverse names
+    LOGDEV_REVERSE = { console: :logfile, logfile: :console }
 
     private
 
-    def parse_to_hash_from(options)
-      result = { enabling_target: nil, indent_level: 0 }
-      options.each_with_object(result) do |val, obj|
-        if val.is_a?(Symbol)
-          correct_name?(val)
-          obj[:enabling_target] = LOGDEVS.include?(val) ? val : nil
-        elsif val.is_a?(Fixnum)
-          obj[:indent_level] = val
+    def extract_options(options)
+      options.each_with_object(ParsedOption.new(nil, 0)) do |val, obj|
+        case val
+        when Symbol then obj.logdev_name = name_reverse(val)
+        when Fixnum then obj.indent_level = val
+        else incorrect_option_error(val)
         end
-      end
-    end
-
-    def reverse_target(logdev_name)
-      case logdev_name
-      when :console then :logfile
-      when :logfile then :console
       end
     end
 
@@ -39,22 +36,30 @@ module TeeLogger
     end
 
     def formatting(val)
-      if val.is_a?(Symbol)
-        ":#{val}"
-      elsif val.nil?
-        'nil'
-      else
-        val
+      case val
+      when Symbol then ":#{val}"
+      when nil    then 'nil'
+      else val
       end
     end
 
-    def correct_name?(logdev_name)
-      if LOGDEVS.include?(logdev_name)
-        true
-      else
-        fail IncorrectNameError,
-             "logdev_name=[:#{logdev_name}]:logdev_name is :console or :logfile"
-      end
+    def name_reverse(val)
+      correct_name?(val)
+      LOGDEV_REVERSE[val]
+    end
+
+    def correct_name?(name)
+      LOGDEV_NAMES.include?(name) ? true : incorrect_name_error(name)
+    end
+
+    def incorrect_name_error(name)
+      fail IncorrectNameError,
+           "logdev_name is :console or :logfile. logdev_name=[:#{name}]"
+    end
+
+    def incorrect_option_error(val)
+      fail IncorrectOptionError,
+           "option params is Symbol or Fixnum. class=[#{val.class}]"
     end
 
     def logdev_instance(logdev_name)

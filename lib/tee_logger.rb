@@ -20,25 +20,21 @@ module TeeLogger
   class TeeLogger
     class << self
       # @!macro [attach] logging_methods
-      #   @!method $1(progname = nil, disabling_target = nil, &block)
+      #   @!method $1(progname = nil, *options, &block)
       #   logging $1 level message.
       #   @param progname see also Logger
-      #   @param disabling_target (Symbol) valid values => [:console, :logfile]
+      #   @param options [Array]
+      #   @option options [Fixnum] indent_level
+      #   @option options [Symbol] enabling_target
+      #                            valid values => [:console, :logfile]
       #   @param &block see also Logger
       #   @return true
       #   @see Logger
       def define_logging_methods(name)
         define_method(name) do |progname = nil, *options, &block|
-          opts = parse_to_hash_from(options)
-
-          disabling_target = reverse_target(opts[:enabling_target])
-          progname, block  = indentation(progname, block, opts[:indent_level])
-
-          if disabling_target.nil?
-            logging(name, progname, &block)
-          else
-            disable(disabling_target) { logging(name, progname, &block) }
-          end
+          logdev_name, indent_level = extract_options(options).values
+          progname, block = indentation(progname, block, indent_level)
+          logging(name, progname, logdev_name, &block)
         end
       end
       private :define_logging_methods
@@ -124,9 +120,13 @@ module TeeLogger
 
     private
 
-    def logging(name, progname, &block)
-      @console.send(name, progname, &block)
-      @logfile.send(name, progname, &block)
+    def logging(name, progname, logdev_name = nil, &block)
+      if logdev_name
+        disable(logdev_name) { logging(name, progname, &block) }
+      else
+        @console.send(name, progname, &block)
+        @logfile.send(name, progname, &block)
+      end
     end
   end
 end

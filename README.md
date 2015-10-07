@@ -4,7 +4,7 @@
 [![Test Coverage](https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/coverage.svg)](https://codeclimate.com/github/k-ta-yamada/tee_logger/coverage)
 
 > Sorry. In from version 2 to version 3, changed usage.
-> see also [CHANGELOG.md](/CHANGELOG.md#v300).
+> see also [CHANGELOG.md](https://github.com/k-ta-yamada/tee_logger/blob/master/CHANGELOG.md).
 
 - [Rubygems.org](https://rubygems.org/gems/tee_logger)
 - [GitHub](https://github.com/k-ta-yamada/tee_logger)

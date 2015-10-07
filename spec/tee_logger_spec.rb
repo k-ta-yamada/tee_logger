@@ -110,13 +110,25 @@ describe TeeLogger do
     end
   end
 
-  describe 'not correct logdev_name' do
+  describe 'incorrect logdev_name' do
     it 'raises TeeLogger::Utils::IncorrectNameError' do
       error_message =
-        'logdev_name=[:incorrect_name]:logdev_name is :console or :logfile'
+        'logdev_name is :console or :logfile. logdev_name=[:incorrect_name]'
+
       expect { tl.info('hello', :incorrect_name) }.to raise_error do |error|
-        puts "error.class=[#{error.class}]"
         expect(error.class).to eq(TeeLogger::Utils::IncorrectNameError)
+        expect(error.to_s).to eq(error_message)
+      end
+    end
+  end
+
+  describe 'incorrect option' do
+    it 'raises TeeLogger::Utils::IncorrectOptionError' do
+      error_message =
+        'option params is Symbol or Fixnum. class=[NilClass]'
+
+      expect { tl.info('hello', nil) }.to raise_error do |error|
+        expect(error.class).to eq(TeeLogger::Utils::IncorrectOptionError)
         expect(error.to_s).to eq(error_message)
       end
     end

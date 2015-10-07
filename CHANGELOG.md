@@ -1,3 +1,6 @@
+# v3.0.1
+- refactoring for [issue #9](https://github.com/k-ta-yamada/tee_logger/issues/9)
+
 # v3.0.0
 - [issue #4](https://github.com/k-ta-yamada/tee_logger/issues/4)
   logging method's parametrer disabling_target change to enabling_targe
