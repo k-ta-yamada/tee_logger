@@ -1,3 +1,7 @@
+# v3.0.2
+- refactoring
+  - CONSTANTS move to ./lib/constants.rb
+
 # v3.0.1
 - refactoring for [issue #9](https://github.com/k-ta-yamada/tee_logger/issues/9)
 
