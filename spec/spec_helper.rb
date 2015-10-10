@@ -28,7 +28,7 @@ RSpec.configure do |config|
 end
 
 # ######################################################################
-# helper methdos
+# helper methods and constants
 # ######################################################################
 
 # wrap TeeLogger::LOGGING_METHODS
@@ -46,18 +46,22 @@ def regexp(severity = :debug, progname = nil, message = 'nil', datetime = nil)
   Regexp.new(string)
 end
 
-LOGFILE_NAME = 'tee_logger_spec_fakefs.log'
+# filename for fakefs
+FAKE_FILE_NAME = 'tee_logger_spec_fakefs.log'
 
-# simplicity tail
-# @result (Array) chomped element
-def tail_logfile(n = 10, file = LOGFILE_NAME)
-  result = []
-  File.open(file) do |f|
-    result = f.readlines.last(n)
-  end
-  result.map(&:chomp)
+# return fakefs file
+def fake_file
+  File.open(FAKE_FILE_NAME, 'w')
 end
 
+# simplicity tail for logfile
+# @result (Array) chomped element
+def tail_logfile(n = 10, file = FAKE_FILE_NAME)
+  result = File.read(file)
+  result.split("\n").last(n).map(&:chomp)
+end
+
+# simplicity tail for console by capture_stdout
 # @result (Array) chomped element
 def tail_console(n = 10)
   result = capture_stdout { yield }

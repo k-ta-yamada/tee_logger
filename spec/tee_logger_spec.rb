@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe TeeLogger do
-  subject(:tl)    { described_class.new(File.open(LOGFILE_NAME, 'w')) }
+  subject(:tl)    { described_class.new(fake_file) }
   let(:progname)  { 'MyApp' }
   let(:message)   { 'hello, world!' }
   let(:block)     { proc { 'this is blocked message' } }
   let(:formatter) { proc { |s, _, _, m| "#{s}:#{m}\n" } }
 
-  describe 'logging methods' do
+  describe 'logging_methods' do
     shared_examples 'logging' do |message, progname, block|
       logging_methods.each do |name|
         it "##{name}" do
@@ -16,25 +16,25 @@ describe TeeLogger do
           end
           logfile_result = tail_logfile
 
-          expected = regexp(name, progname, message)
+          expected = regexp(name, progname, message || block.call)
           expect(console_result).to all(match(expected))
           expect(logfile_result).to all(match(expected))
         end
       end
     end
 
-    context 'only message' do
+    context 'only_message' do
       it_behaves_like 'logging', 'hello, world!', nil, nil
     end
-    context 'only block' do
+    context 'only_block' do
       it_behaves_like 'logging', nil, nil, proc { 'this is blocked message' }
     end
-    context 'progname and block' do
+    context 'progname_and_block' do
       it_behaves_like 'logging', nil, 'App', proc { 'this is blocked message' }
     end
 
     shared_examples 'with_enabling_target'do |logdev_name, c_size, l_size|
-      context "enabling logdev_name=[:#{logdev_name}]" do
+      context "logdev_name=[:#{logdev_name}]" do
         logging_methods.each do |name|
           it "##{name}" do
             console_result = tail_console do
@@ -58,7 +58,7 @@ describe TeeLogger do
     it_behaves_like 'with_enabling_target', :logfile, 0, 2
 
     shared_examples 'with_indent' do |indent_level, c_size, l_size|
-      context "disabling indent_level=[:#{indent_level}]" do
+      context "indent_level=[:#{indent_level}]" do
         logging_methods.each do |name|
           it "##{name}" do
             console_result = tail_console do
@@ -84,12 +84,10 @@ describe TeeLogger do
     it_behaves_like 'with_indent', 2, 2, 2
   end
 
-  describe 'message is nil or Symbol' do
-    context 'message is nil' do
+  describe 'nil_or_symbol_message' do
+    context 'message_is_nil' do
       it 'display string nil' do
-        console_result = tail_console do
-          tl.info nil
-        end
+        console_result = tail_console { tl.info nil }
         logfile_result = tail_logfile
 
         expect(console_result).to all(match(regexp(:info, nil, nil)))
@@ -97,11 +95,9 @@ describe TeeLogger do
       end
     end
 
-    context 'message is Symbol' do
+    context 'message_is_Symbol' do
       it 'display string :symbol' do
-        console_result = tail_console do
-          tl.info :hello
-        end
+        console_result = tail_console { tl.info :hello }
         logfile_result = tail_logfile
 
         expect(console_result).to all(match(regexp(:info, nil, ':hello')))
@@ -110,31 +106,15 @@ describe TeeLogger do
     end
   end
 
-  describe 'incorrect logdev_name' do
-    it 'raises TeeLogger::Utils::IncorrectNameError' do
-      error_message =
-        'logdev_name is :console or :logfile. logdev_name=[:incorrect_name]'
-
-      expect { tl.info('hello', :incorrect_name) }.to raise_error do |error|
-        expect(error.class).to eq(TeeLogger::Utils::IncorrectNameError)
-        expect(error.to_s).to eq(error_message)
-      end
+  describe 'raise_error' do
+    shared_examples 'raises' do |err_class, invalid_opt|
+      it { expect { tl.info('hello', invalid_opt) }.to raise_error(err_class) }
     end
+    it_behaves_like 'raises', TeeLogger::IncorrectNameError, :incorrect_name
+    it_behaves_like 'raises', TeeLogger::IncorrectOptionError, nil
   end
 
-  describe 'incorrect option' do
-    it 'raises TeeLogger::Utils::IncorrectOptionError' do
-      error_message =
-        'option params is Symbol or Fixnum. class=[NilClass]'
-
-      expect { tl.info('hello', nil) }.to raise_error do |error|
-        expect(error.class).to eq(TeeLogger::Utils::IncorrectOptionError)
-        expect(error.to_s).to eq(error_message)
-      end
-    end
-  end
-
-  describe 'logging level methods' do
+  describe 'logging_level_methods' do
     logging_methods.map { |v| "#{v}?" }.each do |name|
       context "##{name}" do
         subject { tl.send(name) }
@@ -143,7 +123,7 @@ describe TeeLogger do
     end
   end
 
-  describe 'setting level' do
+  describe 'setting_level' do
     Logger::Severity.constants.each do |const|
       context "Severity:#{const}"do
         logging_methods.each do |name|
@@ -167,7 +147,7 @@ describe TeeLogger do
     end
   end
 
-  describe 'setting progname' do
+  describe 'setting_progname' do
     logging_methods.each do |name|
       it "##{name}" do
         console_result = tail_console do
@@ -207,7 +187,7 @@ describe TeeLogger do
 
     it { expect(tl.datetime_format).to be_nil }
 
-    context 'setting datetime_format' do
+    context 'setting_datetime_format' do
       logging_methods.each do |name|
         it "##{name}" do
           console_result = tail_console do
@@ -225,10 +205,10 @@ describe TeeLogger do
     end
   end
 
-  describe 'disabling and enabling' do
-    context 'basic usage' do
+  describe 'disabling_and_enabling' do
+    context 'basic_usage' do
       shared_examples 'mode_change' do |logdev_name, console_size, logfile_size|
-        context "disabling logdev_name=[:#{logdev_name}]" do
+        context "disabling_logdev_name=[:#{logdev_name}]" do
           logging_methods.each do |name|
             it "##{name}" do
               console_result = tail_console do
@@ -256,10 +236,10 @@ describe TeeLogger do
       it_behaves_like 'mode_change', :logfile, 3, 2
     end
 
-    context 'format change before disable' do
+    context 'format_change_before_disable' do
       shared_examples 'before_disable' do |logdev_name|
-        context "disabling logdev_name=[:#{logdev_name}]" do
-          it 'same format before disabling' do
+        context "disabling_logdev_name=[:#{logdev_name}]" do
+          it 'same_format_before_disabling' do
             console_result = tail_console do
               tl.formatter = proc { |_, _, _, message| "#{message}\n" }
               tl.disable(logdev_name) { tl.debug(message) }
@@ -276,9 +256,9 @@ describe TeeLogger do
       it_behaves_like 'before_disable', :logfile
     end
 
-    context 'disabling block_given?' do
+    context 'disabling_block_given?' do
       shared_examples 'block_given' do |logdev_name, console_size, logfile_size|
-        context "disabling logdev_name = [:#{logdev_name}]" do
+        context "disabling_logdev_name=[:#{logdev_name}]" do
           logging_methods.each do |name|
             it "##{name}" do
               console_result = tail_console do

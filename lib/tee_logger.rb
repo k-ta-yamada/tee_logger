@@ -1,14 +1,10 @@
-require 'tee_logger/utils'
 require 'tee_logger/version'
+require 'tee_logger/constants'
+require 'tee_logger/utils'
 require 'logger'
 
 # namespace
 module TeeLogger
-  # no param of filename, set this filename
-  DEFAULT_FILE = './tee_logger.log'
-  # Implements targets
-  LOGGING_METHODS = [:debug, :info, :warn, :error, :fatal].freeze
-
   # shortcut for TeeLogger::TeeLogger.new
   # @see TeeLogger
   def self.new(logdev = DEFAULT_FILE, shift_age = 0, shift_size = 1_048_576)

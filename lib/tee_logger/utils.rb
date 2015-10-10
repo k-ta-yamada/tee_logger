@@ -2,18 +2,7 @@
 module TeeLogger
   # util
   module Utils
-    # LOGDEV_NAMES not incuded error
-    class IncorrectNameError < StandardError; end
-    #
-    class IncorrectOptionError < StandardError; end
-    # using private method #parse_to_hash
-    ParsedOption = Struct.new(:logdev_name, :indent_level)
-    # defined log devices names
-    LOGDEV_NAMES = [:console, :logfile]
-    # defined reverse names
-    LOGDEV_REVERSE = { console: :logfile, logfile: :console }
-
-    private
+    module_function
 
     def extract_options(options)
       options.each_with_object(ParsedOption.new(nil, 0)) do |val, obj|
