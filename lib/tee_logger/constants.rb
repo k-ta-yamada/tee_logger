@@ -13,7 +13,7 @@ module TeeLogger
 
   # using private method #parse_to_hash
   ParsedOption = Struct.new(:logdev_name, :indent_level)
-  # LOGDEV_NAMES not incuded error
+  # LOGDEV_NAMES not included error
   class IncorrectNameError < StandardError; end
   # option's class is not allow
   class IncorrectOptionError < StandardError; end
