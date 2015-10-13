@@ -9,6 +9,8 @@ module TeeLogger
   # defined paired of logdev name
   LOGDEV_REVERSE = { console: :logfile, logfile: :console }
 
+  FORMATTER_FOR_DISABLING = proc { |_severity, _time, _progname, _msg| '' }
+
   # using private method #parse_to_hash
   ParsedOption = Struct.new(:logdev_name, :indent_level)
   # LOGDEV_NAMES not incuded error

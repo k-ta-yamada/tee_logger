@@ -104,7 +104,7 @@ module TeeLogger
         yield
         enable(logdev_name)
       else
-        logdev_instance(logdev_name).formatter = proc { |_, _, _, _| '' }
+        logdev_instance(logdev_name).formatter = FORMATTER_FOR_DISABLING
       end
     end
 
