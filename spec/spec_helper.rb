@@ -9,6 +9,8 @@ SimpleCov.start
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'tee_logger'
 
+require 'shared_examples_for_tee_logger_spec'
+
 require 'pry'
 require 'parallel'
 require 'capture_stdout'
