@@ -1,3 +1,7 @@
+# v3.1.0
+- [issue #12](https://github.com/k-ta-yamada/tee_logger/issues/12)
+  Include and Extend support
+
 # v3.0.3
 - shared_examples_for_tee_logger_spec.rb [ae1e481](https://github.com/k-ta-yamada/tee_logger/commit/ae1e481)
 - new constant for disabling formatter [478eccb](https://github.com/k-ta-yamada/tee_logger/commit/478eccb)
