@@ -11,6 +11,32 @@ module TeeLogger
     TeeLogger.new(logdev, shift_age, shift_size)
   end
 
+  # define singleton method .logger for your module.
+  # and TeeLogger.progname is your module name.
+  def self.extended(mod)
+    mod.class_eval do
+      define_singleton_method(:logger) do |logdev = DEFAULT_FILE|
+        return @logger if @logger
+        @logger = TeeLogger.new(logdev)
+        @logger.progname = self
+        @logger
+      end
+    end
+  end
+
+  # define instance method #logger for your class.
+  # and TeeLogger.progname is your class name.
+  def self.included(klass)
+    klass.class_eval do
+      define_method(:logger) do |logdev = DEFAULT_FILE|
+        return @logger if @logger
+        @logger = TeeLogger.new(logdev)
+        @logger.progname = self.class.name
+        @logger
+      end
+    end
+  end
+
   # main
   # @see http://www.rubydoc.info/stdlib/logger/Logger Logger
   class TeeLogger
