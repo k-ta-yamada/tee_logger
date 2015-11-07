@@ -6,6 +6,10 @@ require 'logger'
 # namespace
 module TeeLogger
   # shortcut for TeeLogger::TeeLogger.new
+  # @param logdev [String]
+  # @param shift_age [Integer]
+  # @param shift_size [Integer]
+  # @return [TeeLogger::TeeLogger]
   # @see TeeLogger
   def self.new(logdev = DEFAULT_FILE, shift_age = 0, shift_size = 1_048_576)
     TeeLogger.new(logdev, shift_age, shift_size)

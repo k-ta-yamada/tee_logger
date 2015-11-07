@@ -30,7 +30,7 @@ module TeeLogger
       [progname, block]
     end
 
-    # @param val
+    # @param val [Object]
     # @return [String]
     def formatting(val)
       case val
@@ -59,7 +59,7 @@ module TeeLogger
            "logdev_name is :console or :logfile. logdev_name=[:#{name}]"
     end
 
-    # @param name [Symbol]
+    # @param val [Symbol]
     def incorrect_option_error(val)
       fail IncorrectOptionError,
            "option params is Symbol or Fixnum. class=[#{val.class}]"
