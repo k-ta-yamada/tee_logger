@@ -145,18 +145,3 @@ shared_examples 'block_given' do |logdev_name, console_size, logfile_size|
     end
   end
 end
-
-# describe 'parallel'
-shared_examples 'in_xxx' do |method|
-  it "#{method}" do
-    console_result = tail_console do
-      Parallel.each((0..9), method => 10) do |i|
-        tl.info "#{Process.pid} #{Thread.current} #{i}"
-      end
-    end
-    logfile_result = tail_logfile(20)
-
-    expect(console_result.size).to eq(10)
-    expect(logfile_result.size).to eq(10)
-  end
-end
