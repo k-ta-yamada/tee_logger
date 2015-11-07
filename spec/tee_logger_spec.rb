@@ -175,11 +175,4 @@ describe TeeLogger do
       it_behaves_like 'block_given', :logfile, 3, 2
     end
   end
-
-  describe 'parallel' do
-    it_behaves_like 'in_xxx', :in_threads
-    pending 'No such file or directory - tee_logger_spec_fakefs.log' do
-      it_behaves_like 'in_xxx', :in_processes
-    end
-  end
 end
