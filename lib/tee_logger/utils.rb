@@ -16,9 +16,9 @@ module TeeLogger
       end
     end
 
-    # @params progname
-    # @params block
-    # @params indent_level [Fixnum]
+    # @param progname
+    # @param block
+    # @param indent_level [Fixnum]
     # @return [Array]
     def indentation(progname, block, indent_level)
       if block.nil?
@@ -30,7 +30,7 @@ module TeeLogger
       [progname, block]
     end
 
-    # @params val
+    # @param val
     # @return [String]
     def formatting(val)
       case val
@@ -40,32 +40,32 @@ module TeeLogger
       end
     end
 
-    # @params val [Symbol]
+    # @param val [Symbol]
     # @return [Symbol]
     def name_reverse(val)
       correct_name?(val)
       LOGDEV_REVERSE[val]
     end
 
-    # @params name [Symbol]
+    # @param name [Symbol]
     # @return [true]
     def correct_name?(name)
       LOGDEV_NAMES.include?(name) ? true : incorrect_name_error(name)
     end
 
-    # @params name [Symbol]
+    # @param name [Symbol]
     def incorrect_name_error(name)
       fail IncorrectNameError,
            "logdev_name is :console or :logfile. logdev_name=[:#{name}]"
     end
 
-    # @params name [Symbol]
+    # @param name [Symbol]
     def incorrect_option_error(val)
       fail IncorrectOptionError,
            "option params is Symbol or Fixnum. class=[#{val.class}]"
     end
 
-    # @params logdev_name [Symbol]
+    # @param logdev_name [Symbol]
     # @return [Logger]
     def logdev_instance(logdev_name)
       instance_variable_get("@#{logdev_name}")
