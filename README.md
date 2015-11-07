@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/k-ta-yamada/tee_logger.svg)](https://travis-ci.org/k-ta-yamada/tee_logger)
 [![Code Climate](https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/gpa.svg)](https://codeclimate.com/github/k-ta-yamada/tee_logger)
 [![Test Coverage](https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/coverage.svg)](https://codeclimate.com/github/k-ta-yamada/tee_logger/coverage)
+[![Inline docs](http://inch-ci.org/github/k-ta-yamada/tee_logger.svg?branch=master)](http://inch-ci.org/github/k-ta-yamada/tee_logger)
 
 > Sorry. In from version 2 to version 3, changed usage.
 > see also [CHANGELOG.md](https://github.com/k-ta-yamada/tee_logger/blob/master/CHANGELOG.md).
@@ -114,6 +115,33 @@ tl.formatter = proc { |severity, datetime, progname, message| "#{severity}:#{mes
 
 tl.datetime_format # => nil or Proc
 tl.datetime_format = '%Y%m%d %H%M%S '
+```
+
+
+## include or extend TeeLogger for casual use
+
+> TODO: the log file will be in default of `./tee_logger.log`
+
+```ruby
+require 'tee_logger'
+
+class YourAwesomeClass
+  include TeeLogger
+
+  def awesome_method
+    # do somthing
+    logger.info 'this is message is logging and disp console'
+  end
+end
+
+module YourAwesomeModule
+  extend TeeLogger
+
+  def self.awesome_method
+    # do somthing
+    logger.info 'this is message is logging and disp console'
+  end
+end
 ```
 
 
