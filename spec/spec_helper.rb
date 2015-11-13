@@ -6,12 +6,12 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   SimpleCov::Formatter::HTMLFormatter,]
 SimpleCov.start
 
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'tee_logger'
-
 require 'pry'
 require 'capture_stdout'
 require 'fakefs/spec_helpers'
+
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+require 'tee_logger'
 
 RSpec.configure do |config|
   config.include FakeFS::SpecHelpers
@@ -32,7 +32,7 @@ end
 
 # wrap TeeLogger::LOGGING_METHODS
 def logging_methods
-  described_class.const_get(:LOGGING_METHODS)
+  TeeLogger::LOGGING_METHODS
 end
 
 # like log format
