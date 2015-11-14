@@ -1,3 +1,6 @@
+# v3.1.1
+- [[clean] module split](https://github.com/k-ta-yamada/tee_logger/pull/14)
+
 # v3.1.0
 - [issue #12](https://github.com/k-ta-yamada/tee_logger/issues/12)
   Include and Extend support
