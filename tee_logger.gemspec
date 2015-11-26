@@ -9,9 +9,12 @@ Gem::Specification.new do |spec|
   spec.authors       = ['k-ta-yamada']
   spec.email         = ['key.luvless@gmail.com']
 
+  spec.required_ruby_version = '>= 2.0.0'
+
   spec.summary       = 'logging to file and standard output.'
-  spec.description   =
-    'logging to file and standard output. require standard library only.'
+  # rubocop:disable Metrics/LineLength
+  spec.description   = 'logging to file and standard output. require standard library only.'
+  # rubocop:enable Metrics/LineLength
 
   spec.homepage      = 'https://github.com/k-ta-yamada/tee_logger'
   spec.license       = 'MIT'
