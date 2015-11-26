@@ -1,3 +1,6 @@
+# v3.1.2
+- add .gemspec required_ruby_version = '>= 2.0.0'
+
 # v3.1.1
 - [[clean] module split](https://github.com/k-ta-yamada/tee_logger/pull/14)
 
