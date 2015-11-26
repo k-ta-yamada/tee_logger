@@ -1,11 +1,10 @@
 language: ruby
 cache: bundler
 rvm:
-  - ruby-head
-  - 2.2.3
-  - 2.2.2
-  - 2.1.5
-  - 2.0.0
+  - 2.2.x
+  - 2.1.x
+  - 2.0.x
+  - 1.9.x
 before_install: gem install bundler -v 1.10.4
 notifications:
   slack:
