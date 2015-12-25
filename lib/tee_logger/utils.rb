@@ -2,7 +2,7 @@
 module TeeLogger
   # util
   module Utils
-    module_function
+    # module_function
 
     # @param options [Array]
     # @return [ParsedOption]
