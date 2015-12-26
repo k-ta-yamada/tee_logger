@@ -1,11 +1,11 @@
-[![Gem Version](https://badge.fury.io/rb/tee_logger.svg)](http://badge.fury.io/rb/tee_logger)
-[![Build Status](https://travis-ci.org/k-ta-yamada/tee_logger.svg)](https://travis-ci.org/k-ta-yamada/tee_logger)
-[![Code Climate](https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/gpa.svg)](https://codeclimate.com/github/k-ta-yamada/tee_logger)
-[![Test Coverage](https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/coverage.svg)](https://codeclimate.com/github/k-ta-yamada/tee_logger/coverage)
-[![Inline docs](http://inch-ci.org/github/k-ta-yamada/tee_logger.svg?branch=master)](http://inch-ci.org/github/k-ta-yamada/tee_logger)
+[![Gem Version][gem_version-svg]][gem_version]
+[![Build Status][travis-svg]][travis]
+[![Code Climate][codeclimate-svg]][codeclimate]
+[![Test Coverage][codeclimate_cov-svg]][codeclimate_cov]
+[![Inline docs][inch-ci-svg]][inch-ci]
 
 > Sorry. In from version 2 to version 3, changed usage.
-> see also [CHANGELOG.md](https://github.com/k-ta-yamada/tee_logger/blob/master/CHANGELOG.md).
+> see also [CHANGELOG.md][tee_logger-changelog].
 
 - [Rubygems.org](https://rubygems.org/gems/tee_logger)
 - [GitHub](https://github.com/k-ta-yamada/tee_logger)
@@ -48,73 +48,74 @@ $ gem install tee_logger
 ## Usage
 
 ```ruby
-require 'tee_logger'
+  require 'tee_logger'
 
-# Logger.new like options(logdev, shift_age, shift_size)
-# options default value is
-#   logdev     = './tee_logger.log'
-#   shift_age  = 0
-#   shift_size = 1_048_576
-tl = TeeLogger.new
+  # Logger.new like options(logdev, shift_age, shift_size)
+  # options default value is
+  #   logdev     = './tee_logger.log'
+  #   shift_age  = 0
+  #   shift_size = 1_048_576
+  tl = TeeLogger.new
 
-# let's logging
-tl.debug 'hello'
-tl.debug(:progname) { 'hello world' }
-tl.progname = 'App'
-tl.debug 'hello tee_logger'
+  # let's logging
+  tl.debug 'hello'
+  tl.debug(:progname) { 'hello world' }
+  tl.progname = 'App'
+  tl.debug 'hello tee_logger'
 
-# enable only when specified
-tl.info 'this message is console and logfile'
-tl.info 'this message is console only', :console
-tl.info 'this message is logfile only', :logfile
+  # enable only when specified
+  tl.info 'this message is console and logfile'
+  tl.info 'this message is console only', :console
+  tl.info 'this message is logfile only', :logfile
 
-# log meassage indent
-tl.info 'hello'    # => 'hello'
-tl.info 'hello', 0 # => 'hello'
-tl.info 'hello', 2 # => '  hello'
+  # log meassage indent
+  tl.info 'hello'    # => 'hello'
+  tl.info 'hello', 0 # => 'hello'
+  tl.info 'hello', 2 # => '  hello'
 
-# enabling and indent
-tl.info 'this message is console only', 2, :console
-tl.info 'this message is console only', :console, 2
+  # enabling and indent
+  tl.info 'this message is console only', 2, :console
+  tl.info 'this message is console only', :console, 2
 
-# disable console output
-tl.disable(:console)
-tl.info 'this message is logfile only'
-
-# enable console output
-tl.enable(:console)
-tl.info 'this message is logfile and console'
-
-# disable logfile output
-tl.disable(:logfile)
-tl.info 'this message is consle only'
-
-# enable logfile output
-tl.enable(:logfile)
-tl.info 'this message is logfile and console'
-
-# disabe in block
-tl.disable(:console) do
+  # disable console output
+  tl.disable(:console)
   tl.info 'this message is logfile only'
-end
-tl.info 'this message is logfile and console'
 
-# and others like Logger's
-tl.debug? # => true
-tl.info?  # => true
-tl.warn?  # => true
-tl.error? # => true
-tl.fatal? # => true
+  # enable console output
+  tl.enable(:console)
+  tl.info 'this message is logfile and console'
 
-tl.level # => 0
-tl.level = Logger::INFO
-tl.debug 'this message is not logging'
+  # disable logfile output
+  tl.disable(:logfile)
+  tl.info 'this message is consle only'
 
-tl.formatter # => nil or Proc
-tl.formatter = proc { |severity, datetime, progname, message| "#{severity}:#{message}" }
+  # enable logfile output
+  tl.enable(:logfile)
+  tl.info 'this message is logfile and console'
 
-tl.datetime_format # => nil or Proc
-tl.datetime_format = '%Y%m%d %H%M%S '
+  # disabe in block
+  tl.disable(:console) do
+    tl.info 'this message is logfile only'
+  end
+  tl.info 'this message is logfile and console'
+
+  # and others like Logger's
+  tl.debug? # => true
+  tl.info?  # => true
+  tl.warn?  # => true
+  tl.error? # => true
+  tl.fatal? # => true
+
+  tl.level # => 0
+  tl.level = Logger::INFO
+  tl.debug 'this message is not logging'
+
+  tl.formatter # => nil or Proc
+  tl.formatter =
+    proc { |severity, datetime, progname, message| "#{severity}:#{message}" }
+
+  tl.datetime_format # => nil or Proc
+  tl.datetime_format = '%Y%m%d %H%M%S '
 ```
 
 
@@ -123,25 +124,25 @@ tl.datetime_format = '%Y%m%d %H%M%S '
 > TODO: the log file will be in default of `./tee_logger.log`
 
 ```ruby
-require 'tee_logger'
+  require 'tee_logger'
 
-class YourAwesomeClass
-  include TeeLogger
+  class YourAwesomeClass
+    include TeeLogger
 
-  def awesome_method
-    # do somthing
-    logger.info 'this is message is logging and disp console'
+    def awesome_method
+      # do somthing
+      logger.info 'this is message is logging and disp console'
+    end
   end
-end
 
-module YourAwesomeModule
-  extend TeeLogger
+  module YourAwesomeModule
+    extend TeeLogger
 
-  def self.awesome_method
-    # do somthing
-    logger.info 'this is message is logging and disp console'
+    def self.awesome_method
+      # do somthing
+      logger.info 'this is message is logging and disp console'
+    end
   end
-end
 ```
 
 
@@ -162,12 +163,33 @@ and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/k-ta-yamada/tee_logger.
+Bug reports and pull requests are welcome on GitHub
+at https://github.com/k-ta-yamada/tee_logger.
 This project is intended to be a safe,
 welcoming space for collaboration,
-and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+and contributors are expected to adhere to the
+[Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+The gem is available as open source under the terms of the
+[MIT License](http://opensource.org/licenses/MIT).
+
+
+[gem_version]: http://badge.fury.io/rb/tee_logger
+[gem_version-svg]: https://badge.fury.io/rb/tee_logger.svg
+
+[travis]: https://travis-ci.org/k-ta-yamada/tee_logger
+[travis-svg]: https://travis-ci.org/k-ta-yamada/tee_logger.svg
+
+[codeclimate]: https://codeclimate.com/github/k-ta-yamada/tee_logger
+[codeclimate-svg]: https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/gpa.svg
+
+[codeclimate_cov]: https://codeclimate.com/github/k-ta-yamada/tee_logger/coverage
+[codeclimate_cov-svg]: https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/coverage.svg
+
+[inch-ci]: http://inch-ci.org/github/k-ta-yamada/tee_logger
+[inch-ci-svg]: http://inch-ci.org/github/k-ta-yamada/tee_logger.svg?branch=master
+
+[tee_logger-changelog]: https://github.com/k-ta-yamada/tee_logger/blob/master/CHANGELOG.md
