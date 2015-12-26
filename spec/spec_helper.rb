@@ -51,8 +51,15 @@ end
 FAKE_FILE_NAME = 'tee_logger_spec_fakefs.log'
 
 # return fakefs file
+# `logdev` is String value then, FakeFS is #flock is `NotImplementedError`
 def fake_file
   @fake_file ||= File.open(FAKE_FILE_NAME, 'w')
+end
+
+# return fakefs file
+# `logdev` is String value then, FakeFS is #flock is `NotImplementedError`
+def default_file
+  @default_file ||= File.open('tee_logger.log', 'w')
 end
 
 # simplicity tail for logfile
