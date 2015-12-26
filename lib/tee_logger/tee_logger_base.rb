@@ -46,6 +46,8 @@ module TeeLogger
     def initialize(logdev = DEFAULT_FILE, shift_age = 0, shift_size = 1_048_576)
       @console = Logger.new($stdout)
       @logfile = Logger.new(logdev, shift_age, shift_size)
+
+      @level, @progname, @formatter, @datetime_format = nil
     end
 
     define_logging_methods :debug
