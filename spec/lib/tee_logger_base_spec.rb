@@ -4,7 +4,7 @@ require 'shared_context'
 
 describe TeeLogger do
   include_context 'shared_context'
-  subject(:tl)    { described_class.new(fake_file) }
+  subject(:tl) { described_class.new(fake_file) }
 
   describe 'logging_methods' do
     context 'only_message' do
