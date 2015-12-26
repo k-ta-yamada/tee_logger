@@ -1,12 +1,10 @@
 require 'spec_helper'
 require 'shared_examples_for_tee_logger'
+require 'shared_context'
 
 describe TeeLogger do
+  include_context 'shared_context'
   subject(:tl)    { described_class.new(fake_file) }
-  let(:progname)  { 'MyApp' }
-  let(:message)   { 'hello, world!' }
-  let(:block)     { proc { 'this is blocked message' } }
-  let(:formatter) { proc { |s, _, _, m| "#{s}:#{m}\n" } }
 
   describe 'logging_methods' do
     context 'only_message' do
