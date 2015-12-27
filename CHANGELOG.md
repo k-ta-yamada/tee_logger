@@ -1,3 +1,7 @@
+# v3.2.0
+- [issue #15](https://github.com/k-ta-yamada/tee_logger/issues/15)
+  Before extend or include the module, allow the setting of logdev
+
 # v3.1.2
 - add .gemspec required_ruby_version = '>= 2.0.0'
 
