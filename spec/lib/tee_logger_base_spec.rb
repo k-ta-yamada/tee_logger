@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'shared_examples_for_tee_logger'
 require 'shared_context'
 
-describe TeeLogger do
+describe TeeLogger::TeeLoggerBase do
   include_context 'shared_context'
   subject(:tl) { described_class.new(fake_file) }
 
@@ -10,12 +10,15 @@ describe TeeLogger do
     context 'only_message' do
       it_behaves_like 'logging', 'hello, world!', nil, nil
     end
+
     context 'only_block' do
       it_behaves_like 'logging', nil, nil, proc { 'this is blocked message' }
     end
+
     context 'progname_and_block' do
       it_behaves_like 'logging', nil, 'App', proc { 'this is blocked message' }
     end
+
     it_behaves_like 'with_enabling_target', :console, 2, 0
     it_behaves_like 'with_enabling_target', :logfile, 0, 2
     it_behaves_like 'with_indent', 2, 2, 2

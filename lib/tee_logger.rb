@@ -1,8 +1,8 @@
+require 'logger'
 require 'tee_logger/version'
 require 'tee_logger/constants'
 require 'tee_logger/utils'
 require 'tee_logger/tee_logger_base'
-require 'logger'
 
 # namespace
 module TeeLogger
@@ -16,19 +16,17 @@ module TeeLogger
     TeeLoggerBase.new(logdev, shift_age, shift_size)
   end
 
-  @logdev = nil
-
-  # @return [String, File] instance variable @logdev.
-  def self.logdev
-    @logdev
-  end
-
   # set TeeLogger's class instance variable @logdev.
   # extend or include TeeLogger then, @logdev is default argument
   # for Logger.new(logdev).
   # @param logdev [String, File]
   def self.logdev=(logdev)
     @logdev = logdev
+  end
+
+  # @return [String, File] instance variable @logdev.
+  def self.logdev
+    @logdev
   end
 
   # define singleton method .logger for your module.

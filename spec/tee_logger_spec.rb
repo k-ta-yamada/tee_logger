@@ -9,6 +9,12 @@ describe TeeLogger do
     end
   end
 
+  describe '.new' do
+    it '' do
+      expect(described_class.new(fake_file)).to be_a(TeeLogger::TeeLoggerBase)
+    end
+  end
+
   shared_examples 'extend_or_include' do |type, msg, sev|
     it "can call .#logger method : #{msg}" do
       target = { extended: klass,

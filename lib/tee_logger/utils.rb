@@ -2,8 +2,6 @@
 module TeeLogger
   # util
   module Utils
-    # module_function
-
     # @param options [Array]
     # @return [ParsedOption]
     def extract_options(options)
