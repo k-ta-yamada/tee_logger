@@ -1,13 +1,7 @@
 require 'spec_helper'
 
 describe TeeLogger do
-  before { described_class.logdev = fake_file }
-  let(:klass) do
-    Klass ||= Class.new do # rubocop:disable Style/ConstantName
-      extend TeeLogger
-      include TeeLogger
-    end
-  end
+  include_context 'shared_context'
 
   describe '.new' do
     it '' do

@@ -1,10 +1,9 @@
 require 'spec_helper'
-require 'shared_examples_for_tee_logger'
-require 'shared_context'
 
 describe TeeLogger::TeeLoggerBase do
   include_context 'shared_context'
-  subject(:tl) { described_class.new(fake_file) }
+
+  subject(:tl) { described_class.new }
 
   describe 'logging_methods' do
     context 'only_message' do
