@@ -13,6 +13,8 @@ require 'fakefs/spec_helpers'
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'tee_logger'
 
+Dir.glob('./spec/support/*') { |file| require file }
+
 RSpec.configure do |config|
   config.include FakeFS::SpecHelpers
   config.order = :random
@@ -47,13 +49,10 @@ def regexp(severity = :debug, progname = nil, message = 'nil', datetime = nil)
   Regexp.new(string)
 end
 
-# filename for fakefs
-FAKE_FILE_NAME = 'tee_logger_spec_fakefs.log'
-
 # return fakefs file
 # `logdev` is String value then, FakeFS is #flock is `NotImplementedError`
 def fake_file
-  @fake_file ||= File.open(FAKE_FILE_NAME, 'w')
+  @fake_file ||= File.open('tee_logger_spec_fakefs.log', 'w')
 end
 
 # return fakefs file
@@ -64,7 +63,7 @@ end
 
 # simplicity tail for logfile
 # @result (Array) chomped element
-def tail_logfile(n = 10, file = FAKE_FILE_NAME)
+def tail_logfile(n = 10, file = fake_file.path)
   result = File.read(file)
   result.split("\n").last(n).map(&:chomp)
 end
