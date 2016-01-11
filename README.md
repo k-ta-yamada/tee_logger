@@ -174,7 +174,12 @@ end
 require 'tee_logger'
 
 # Before extend or include the module, allow the setting of logdev
-TeeLogger.logdev = 'lo1.log'
+# sorry, `TeeLogger.logev` is deprecate.
+# TeeLogger.logdev = 'log1.log'
+TeeLogger.configure do |config|
+  config.logdev = 'log1.log'
+end
+
 class YourAwesomeClass
   include TeeLogger
 
@@ -184,6 +189,7 @@ class YourAwesomeClass
 end
 
 # Before extend or include the module, allow the setting of logdev
+# sorry, `TeeLogger.logev` is deprecate.
 TeeLogger.logdev = 'log2.log'
 module YourAwesomeModule
   extend TeeLogger
