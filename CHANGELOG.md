@@ -1,3 +1,7 @@
+# v3.2.1
+- [issue #18](https://github.com/k-ta-yamada/tee_logger/issues/18)
+  use initial value `DEFAULT_FILE`, it's change TeeLogger.logdev
+
 # v3.2.0
 - [issue #15](https://github.com/k-ta-yamada/tee_logger/issues/15)
   Before extend or include the module, allow the setting of logdev
