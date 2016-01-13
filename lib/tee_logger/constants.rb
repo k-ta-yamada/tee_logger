@@ -3,7 +3,10 @@ module TeeLogger
   # no param of filename, set this filename
   DEFAULT_FILE = './tee_logger.log'
 
-  # Implements targets
+  # configured attributes
+  CONFIGURED_ATTRIBUTES = [:level, :progname, :formatter, :datetime_format]
+
+  # implements targets
   LOGGING_METHODS = [:debug, :info, :warn, :error, :fatal]
 
   # defined logdev names

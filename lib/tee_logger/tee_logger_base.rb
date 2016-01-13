@@ -37,7 +37,8 @@ module TeeLogger
     end
 
     include Utils
-    attr_reader :level, :progname, :formatter, :datetime_format
+    # attr_reader :level, :progname, :formatter, :datetime_format
+    attr_reader(*CONFIGURED_ATTRIBUTES)
 
     # @param logdev [String]
     # @param shift_age [Integer]
@@ -48,6 +49,7 @@ module TeeLogger
       @logfile = Logger.new(logdev || TeeLogger.logdev, shift_age, shift_size)
 
       @level, @progname, @formatter, @datetime_format = nil
+      configuration
     end
 
     define_logging_methods :debug
@@ -106,6 +108,13 @@ module TeeLogger
     end
 
     private
+
+    def configuration
+      CONFIGURED_ATTRIBUTES.each do |method_name|
+        value = TeeLogger.send(method_name)
+        send("#{method_name}=", value) unless value.nil?
+      end
+    end
 
     def logging(name, progname, logdev_name = nil, &block)
       if logdev_name

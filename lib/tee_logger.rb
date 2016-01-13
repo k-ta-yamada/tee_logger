@@ -25,7 +25,7 @@ module TeeLogger
     mod.define_singleton_method(:logger) do
       return @logger if @logger
       @logger = TeeLogger.new
-      @logger.progname = mod
+      @logger.progname = TeeLogger.progname || mod
       @logger
     end
   end
@@ -37,7 +37,7 @@ module TeeLogger
       define_method(:logger) do
         return @logger if @logger
         @logger = TeeLogger.new
-        @logger.progname = klass.name
+        @logger.progname = TeeLogger.progname || klass.name
         @logger
       end
     end
