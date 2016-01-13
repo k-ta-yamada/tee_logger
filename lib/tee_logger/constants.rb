@@ -16,8 +16,8 @@ module TeeLogger
   FORMATTER_FOR_DISABLING = proc { |_severity, _time, _progname, _msg| '' }
 
   # using TeeLogger::Utils.extract_options
-  # @param logdev_name [Symbol]
-  # @param indent_level [Fixnum]
+  # @attr logdev_name [Symbol]
+  # @attr indent_level [Fixnum]
   ParsedOption = Struct.new(:logdev_name, :indent_level)
 
   # LOGDEV_NAMES not included error
