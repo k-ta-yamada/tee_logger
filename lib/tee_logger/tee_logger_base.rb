@@ -79,11 +79,11 @@ module TeeLogger
       @console.formatter = @logfile.formatter = @formatter = formatter
     end
 
-    # @param formatter
-    def datetime_format=(format)
+    # @param datetime_format
+    def datetime_format=(datetime_format)
       @console.datetime_format =
         @logfile.datetime_format =
-          @datetime_format = format
+          @datetime_format = datetime_format
     end
 
     # @param logdev_name [String, Symbol]

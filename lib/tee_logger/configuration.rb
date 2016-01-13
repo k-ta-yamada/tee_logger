@@ -2,7 +2,18 @@
 module TeeLogger
   # configuration
   module Configration
-    Configration = Struct.new(:logdev)
+    extend Gem::Deprecate
+
+    # @attr logdev [String, File]
+    # @attr level [Logger::Severity, Integer]
+    # @attr progname [String, Symbol]
+    # @attr formatter [Logger::Formatter, Proc]
+    # @attr datetime_format [String]
+    Configration = Struct.new(:logdev,
+                              :level,
+                              :progname,
+                              :formatter,
+                              :datetime_format)
 
     # Yields the global configuration to a block.
     # @yield [Configuration] global configuration
@@ -22,13 +33,31 @@ module TeeLogger
     def logdev=(logdev)
       configuration.logdev = logdev
     end
-
-    extend Gem::Deprecate
     deprecate :logdev=, 'TeeLogger.configure', 2016, 1
 
     # @return [String, File] `configuration.logdev` or `DEFAULT_FILE`.
     def logdev
       configuration.logdev || DEFAULT_FILE
+    end
+
+    # @return `configuration.level`
+    def level
+      configuration.level
+    end
+
+    # @return `configuration.progname`
+    def progname
+      configuration.progname
+    end
+
+    # @return `configuration.formatter`
+    def formatter
+      configuration.formatter
+    end
+
+    # @return `configuration.datetime_format`
+    def datetime_format
+      configuration.datetime_format
     end
 
     private
