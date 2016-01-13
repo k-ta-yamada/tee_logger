@@ -102,10 +102,8 @@ describe TeeLogger::TeeLoggerBase do
   end
 
   describe 'datetime_format' do
-    let(:datetime_format)         { '%Y%m%d %H%M%S ' }
-    let(:datetime_format_reg_exp) { '\d{8}\s\d{6}' }
-
     it { expect(tl.datetime_format).to be_nil }
+
     context 'setting_datetime_format' do
       logging_methods.each do |name|
         it "##{name}" do
