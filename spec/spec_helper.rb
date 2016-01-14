@@ -63,7 +63,7 @@ end
 
 # simplicity tail for logfile
 # @result (Array) chomped element
-def tail_logfile(n = 10, file = fake_file.path)
+def tail_logfile(file = fake_file.path, n = 10)
   result = File.read(file)
   result.split("\n").last(n).map(&:chomp)
 end
