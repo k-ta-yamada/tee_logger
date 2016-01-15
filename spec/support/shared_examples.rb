@@ -30,8 +30,8 @@ shared_examples 'with_enabling_target'do |logdev_name, c_size, l_size|
 
         expected1 = regexp(name, progname, block.call)
         expected2 = regexp(name, nil, message)
-        expect(console_result).to all(match(expected1).or match(expected2))
-        expect(logfile_result).to all(match(expected1).or match(expected2))
+        expect(console_result).to all(match(expected1).or(match(expected2)))
+        expect(logfile_result).to all(match(expected1).or(match(expected2)))
       end
     end
   end
@@ -55,8 +55,8 @@ shared_examples 'with_indent' do |indent_level, c_size, l_size|
         expected1 =
           regexp(name, progname, "#{' ' * indent_level}#{block_call}")
         expected2 = regexp(name, nil, "#{' ' * indent_level}#{message}")
-        expect(console_result).to all(match(expected1).or match(expected2))
-        expect(logfile_result).to all(match(expected1).or match(expected2))
+        expect(console_result).to all(match(expected1).or(match(expected2)))
+        expect(logfile_result).to all(match(expected1).or(match(expected2)))
       end
     end
   end

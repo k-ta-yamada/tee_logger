@@ -59,8 +59,8 @@ describe TeeLogger::TeeLoggerBase do
             expect(logfile_result.size).to eq(size)
 
             expected = regexp(name, nil, message)
-            expect(console_result).to all(match(expected).or be_nil)
-            expect(logfile_result).to all(match(expected).or be_nil)
+            expect(console_result).to all(match(expected).or(be_nil))
+            expect(logfile_result).to all(match(expected).or(be_nil))
           end
         end
       end

@@ -41,8 +41,8 @@ end
 
 # like log format
 def regexp(severity = :debug, progname = nil, message = 'nil', datetime = nil)
-  label    = severity.to_s.upcase.chr
   datetime ||= '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}'
+  label    = severity.to_s.upcase.chr
   pid      = '\d{1,5}'
   string   = "#{label},\s\\[#{datetime}\s\##{pid}\\]" \
              "\s\s?#{severity.upcase}\s--\s#{progname}:\s#{message}"
@@ -63,7 +63,7 @@ end
 
 # simplicity tail for logfile
 # @result (Array) chomped element
-def tail_logfile(n = 10, file = fake_file.path)
+def tail_logfile(file = fake_file.path, n = 10)
   result = File.read(file)
   result.split("\n").last(n).map(&:chomp)
 end
