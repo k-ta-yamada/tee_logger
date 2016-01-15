@@ -68,8 +68,8 @@ module TeeLogger
     def level=(level)
       @console.level = @logfile.level = @level = level
     end
-    alias_method :sev_threshold, :level
-    alias_method :sev_threshold=, :level=
+    alias sev_threshold level
+    alias sev_threshold= level=
 
     # @param name [String, Symbol]
     def progname=(name = nil)

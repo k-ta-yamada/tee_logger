@@ -1,5 +1,5 @@
 # namespace
 module TeeLogger
   # version number
-  VERSION = '3.2.1'
+  VERSION = '3.2.1'.freeze
 end
