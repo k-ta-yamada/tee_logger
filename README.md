@@ -169,15 +169,18 @@ module YourAwesomeModule
 end
 ```
 
-### logfile name setting
+### configuration logfile name, progname, level, formatter, and datetime_format.
 ```ruby
 require 'tee_logger'
 
-# Before extend or include the module, allow the setting of logdev
-# sorry, `TeeLogger.logev` is deprecate.
+# Before extend or include the module, allow the configuration.
 # TeeLogger.logdev = 'log1.log'
 TeeLogger.configure do |config|
   config.logdev = 'log1.log'
+  config.level = Logger::Severity::INFO
+  config.progname = 'AwesomeApp'
+  config.formatter = proc { |s, t, p, m| "#{s} #{t} #{p} #{m}\n" }
+  # config.datetime_format = '%Y%m%d %H%M%S '
 end
 
 class YourAwesomeClass
@@ -188,8 +191,10 @@ class YourAwesomeClass
   end
 end
 
-# Before extend or include the module, allow the setting of logdev
-# sorry, `TeeLogger.logev` is deprecate.
+# reset configuration
+TeeLogger.configuration_reset
+
+# NOTE: sorry, `TeeLogger.logev` is deprecate.
 TeeLogger.logdev = 'log2.log'
 module YourAwesomeModule
   extend TeeLogger

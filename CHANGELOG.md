@@ -1,3 +1,7 @@
+# v3.2.2
+- [issue #17](https://github.com/k-ta-yamada/tee_logger/issues/17)
+  default settings for extend and include
+
 # v3.2.1
 - [issue #18](https://github.com/k-ta-yamada/tee_logger/issues/18)
   use initial value `DEFAULT_FILE`, it's change TeeLogger.logdev
