@@ -1,17 +1,18 @@
 language: ruby
 cache: bundler
 rvm:
-  - 2.5.0
-  - 2.4.3
-  - 2.3.6
-  - 2.2.9
+  - 2.6.0
+  - 2.5.3
+  - 2.4.5
+  - 2.3.8
+  - 2.2.10
   - 2.1.10
   - 2.0.0
-before_install:
-  - gem list
-  - gem update
-  # - gem install bundler -v 1.16.1
-  - gem install bundler
+# before_install:
+#   - gem list
+#   - gem update
+#   # - gem install bundler -v 1.16.1
+#   - gem install bundler
 notifications:
   slack:
     secure: zCs6tIIMRaugSasz857bnfcHywMZvz2nztcTJdkvi25kZFysakVgVJ+CNBRZSHjShsnBD1H1i3ywoECKPHUiLlUDQU4ncZQoSS0qM5CcmVlE0JOHzcvY2POTadZWfVn2XvRcCcoI2k7Oy9cS+xFmbs3PP2TqbVfPStB+l9jD+QejWinpLJR05PGi8M2iqZKjxAwJ9TBoLvmHt7UtXMq6edG/Q+SVOUQMEEkLCaWzSvNQYnDiTk1ewkXF0kG5jtVx/OKjQC62ioQIBz6+I6aMfOil2MCpb8u37asXQeML/rMPfBxVuwvBSwGKpRBrJSUG5XeoWg8bbri0WUOrOGCg3LVRtdiHyUNcAYObaB69+YqFOt/F05Dgg6+9Rs53mgZM2zuvsFp2qeSD27wXCy0ZJhFyMv5YJA5paJZjOAH0ki9FWeZjC4XMasntvO7/83rCEFcqGusMckLKcKE/RdEYurzqLruF2W4FGSAvSTbARjQbtYMxmuh1xJrH4KCdCYDvoxYb4xJrGo+q77j+wnpzGBwf8nak2VcGgN6wXadeosNR31WGW+HBwv8LxTJutlXzDjBTyK2ZcaaIZASbF3liEH294ycdf9YcGlxZYxuauPsg0EXa8C0NHXkfL9Zb1CftEgULXvtBL/qNDr/cyhHWbSYZcJw5DfQYt6inBKudmEU=
