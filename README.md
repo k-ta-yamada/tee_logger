@@ -9,7 +9,7 @@
 
 - [Rubygems.org](https://rubygems.org/gems/tee_logger)
 - [GitHub](https://github.com/k-ta-yamada/tee_logger)
-- [RubyDoc.info](http://www.rubydoc.info/gems/tee_logger)
+- [RubyDoc.info](https://www.rubydoc.info/gems/tee_logger)
 
 # TeeLogger
 
@@ -229,16 +229,16 @@ at https://github.com/k-ta-yamada/tee_logger.
 This project is intended to be a safe,
 welcoming space for collaboration,
 and contributors are expected to adhere to the
-[Contributor Covenant](http://contributor-covenant.org) code of conduct.
+[Contributor Covenant](https://contributor-covenant.org) code of conduct.
 
 
 ## License
 
 The gem is available as open source under the terms of the
-[MIT License](http://opensource.org/licenses/MIT).
+[MIT License](https://opensource.org/licenses/MIT).
 
 
-[gem_version]: http://badge.fury.io/rb/tee_logger
+[gem_version]: https://badge.fury.io/rb/tee_logger
 [gem_version-svg]: https://badge.fury.io/rb/tee_logger.svg
 
 [travis]: https://travis-ci.org/k-ta-yamada/tee_logger
@@ -250,7 +250,7 @@ The gem is available as open source under the terms of the
 [codeclimate_cov]: https://codeclimate.com/github/k-ta-yamada/tee_logger/coverage
 [codeclimate_cov-svg]: https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/coverage.svg
 
-[inch-ci]: http://inch-ci.org/github/k-ta-yamada/tee_logger
-[inch-ci-svg]: http://inch-ci.org/github/k-ta-yamada/tee_logger.svg?branch=master
+[inch-ci]: https://inch-ci.org/github/k-ta-yamada/tee_logger
+[inch-ci-svg]: https://inch-ci.org/github/k-ta-yamada/tee_logger.svg?branch=master
 
 [tee_logger-changelog]: https://github.com/k-ta-yamada/tee_logger/blob/master/CHANGELOG.md
