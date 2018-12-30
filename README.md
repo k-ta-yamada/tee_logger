@@ -1,8 +1,9 @@
 [![Gem Version][gem_version-svg]][gem_version]
 [![Build Status][travis-svg]][travis]
+[![Downloads][downloads-svg]][gem_version]
+[![Inline docs][inch-ci-svg]][inch-ci]
 [![Code Climate][codeclimate-svg]][codeclimate]
 [![Test Coverage][codeclimate_cov-svg]][codeclimate_cov]
-[![Inline docs][inch-ci-svg]][inch-ci]
 
 > Sorry. In from version 2 to version 3, changed usage.
 > see also [CHANGELOG.md][tee_logger-changelog].
@@ -240,17 +241,13 @@ The gem is available as open source under the terms of the
 
 [gem_version]: https://badge.fury.io/rb/tee_logger
 [gem_version-svg]: https://badge.fury.io/rb/tee_logger.svg
-
 [travis]: https://travis-ci.org/k-ta-yamada/tee_logger
 [travis-svg]: https://travis-ci.org/k-ta-yamada/tee_logger.svg
-
 [codeclimate]: https://codeclimate.com/github/k-ta-yamada/tee_logger
 [codeclimate-svg]: https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/gpa.svg
-
 [codeclimate_cov]: https://codeclimate.com/github/k-ta-yamada/tee_logger/coverage
 [codeclimate_cov-svg]: https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/coverage.svg
-
 [inch-ci]: https://inch-ci.org/github/k-ta-yamada/tee_logger
 [inch-ci-svg]: https://inch-ci.org/github/k-ta-yamada/tee_logger.svg?branch=master
-
+[downloads-svg]: https://ruby-gem-downloads-badge.herokuapp.com/tee_logger?type=total&total_label=&color=brightgreen
 [tee_logger-changelog]: https://github.com/k-ta-yamada/tee_logger/blob/master/CHANGELOG.md
