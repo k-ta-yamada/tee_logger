@@ -1,9 +1,10 @@
-require 'codeclimate-test-reporter'
+require 'simplecov'
 require 'simplecov-console'
-formatter = [CodeClimate::TestReporter::Formatter,
-             SimpleCov::Formatter::Console,
-             SimpleCov::Formatter::HTMLFormatter]
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(formatter)
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+  SimpleCov::Formatter::Console,
+  SimpleCov::Formatter::HTMLFormatter,
+])
 SimpleCov.start
 
 require 'pry'
