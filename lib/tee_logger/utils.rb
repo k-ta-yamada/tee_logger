@@ -8,7 +8,7 @@ module TeeLogger
       options.each_with_object(ParsedOption.new(nil, 0)) do |val, obj|
         case val
         when Symbol then obj.logdev_name = name_reverse(val)
-        when Fixnum then obj.indent_level = val
+        when Integer then obj.indent_level = val
         else incorrect_option_error(val)
         end
       end

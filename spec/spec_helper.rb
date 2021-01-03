@@ -1,7 +1,6 @@
-require 'codeclimate-test-reporter'
+require 'simplecov'
 require 'simplecov-console'
-formatter = [CodeClimate::TestReporter::Formatter,
-             SimpleCov::Formatter::Console,
+formatter = [SimpleCov::Formatter::Console,
              SimpleCov::Formatter::HTMLFormatter]
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(formatter)
 SimpleCov.start
