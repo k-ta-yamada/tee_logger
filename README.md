@@ -241,8 +241,8 @@ The gem is available as open source under the terms of the
 
 [gem_version]: https://badge.fury.io/rb/tee_logger
 [gem_version-svg]: https://badge.fury.io/rb/tee_logger.svg
-[travis]: https://travis-ci.org/k-ta-yamada/tee_logger
-[travis-svg]: https://travis-ci.org/k-ta-yamada/tee_logger.svg
+[travis]: https://travis-ci.com/k-ta-yamada/tee_logger
+[travis-svg]: https://travis-ci.com/k-ta-yamada/tee_logger.svg
 [codeclimate]: https://codeclimate.com/github/k-ta-yamada/tee_logger
 [codeclimate-svg]: https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/gpa.svg
 [codeclimate_cov]: https://codeclimate.com/github/k-ta-yamada/tee_logger/coverage
