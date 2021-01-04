@@ -30,7 +30,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'fuubar'
-  spec.add_development_dependency 'simplecov'
+  # Workaround for cc-test-reporter with SimpleCov 0.18.
+  # Stop upgrading SimpleCov until the following issue will be resolved.
+  # https://github.com/codeclimate/test-reporter/issues/418
+  # https://github.com/codeclimate/test-reporter/issues/413
+  spec.add_development_dependency 'simplecov', '= 0.17'
   spec.add_development_dependency 'simplecov-console'
 
   spec.add_development_dependency 'pry'
