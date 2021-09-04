@@ -1,3 +1,5 @@
+# TeeLogger
+
 [![Gem Version][gem_version-svg]][gem_version]
 [![Build Status][travis-svg]][travis]
 [![Downloads][downloads-svg]][gem_version]
@@ -12,20 +14,44 @@
 - [GitHub](https://github.com/k-ta-yamada/tee_logger)
 - [RubyDoc.info](https://www.rubydoc.info/gems/tee_logger)
 
-# TeeLogger
-
 logging to file and standard output.
 require standard library only.
 
+<!-- TOC -->
 
-## Characteristic
+- [1. Characteristic](#1-characteristic)
+- [2. Installation](#2-installation)
+- [3. Usage](#3-usage)
+  - [3.1. let's logging](#31-lets-logging)
+  - [3.2. enable only when specified](#32-enable-only-when-specified)
+  - [3.3. log meassage indent](#33-log-meassage-indent)
+  - [3.4. enabling and indent](#34-enabling-and-indent)
+  - [3.5. disable console output](#35-disable-console-output)
+  - [3.6. enable console output](#36-enable-console-output)
+  - [3.7. disable logfile output](#37-disable-logfile-output)
+  - [3.8. enable logfile output](#38-enable-logfile-output)
+  - [3.9. disable in block](#39-disable-in-block)
+  - [3.10. and others like Logger's](#310-and-others-like-loggers)
+- [4. include or extend TeeLogger](#4-include-or-extend-teelogger)
+  - [4.1. for casual use](#41-for-casual-use)
+  - [4.2. configuration logfile name, progname, level, formatter, and datetime_format](#42-configuration-logfile-name-progname-level-formatter-and-datetime_format)
+- [5. Development](#5-development)
+- [6. Contributing](#6-contributing)
+- [7. License](#7-license)
+
+<!-- /TOC -->
+
+---
+
+## 1. Characteristic
 
 - use standard lib only.
 - like Logger: see usage.
 - enabled or disabled by switching the output of the console and the logfile.
 
+---
 
-## Installation
+## 2. Installation
 
 Add this line to your application's Gemfile:
 
@@ -35,20 +61,22 @@ gem 'tee_logger'
 
 And then execute:
 
-```
-$ bundle
+```sh
+bundle
 ```
 
 Or install it yourself as:
 
+```sh
+gem install tee_logger
 ```
-$ gem install tee_logger
-```
 
+---
 
-## Usage
+## 3. Usage
 
-### let's logging
+### 3.1. let's logging
+
 ```ruby
 require 'tee_logger'
 
@@ -65,51 +93,59 @@ tl.progname = 'App'
 tl.debug 'hello tee_logger'
 ```
 
-### enable only when specified
+### 3.2. enable only when specified
+
 ```ruby
 tl.info 'this message is console and logfile'
 tl.info 'this message is console only', :console
 tl.info 'this message is logfile only', :logfile
 ```
 
-### log meassage indent
+### 3.3. log meassage indent
+
 ```ruby
 tl.info 'hello'    # => 'hello'
 tl.info 'hello', 0 # => 'hello'
 tl.info 'hello', 2 # => '  hello'
 ```
 
-### enabling and indent
+### 3.4. enabling and indent
+
 ```ruby
 tl.info 'this message is console only', 2, :console
 tl.info 'this message is console only', :console, 2
 ```
 
-### disable console output
+### 3.5. disable console output
+
 ```ruby
 tl.disable(:console)
 tl.info 'this message is logfile only'
 ```
 
-### enable console output
+### 3.6. enable console output
+
 ```ruby
 tl.enable(:console)
 tl.info 'this message is logfile and console'
 ```
 
-### disable logfile output
+### 3.7. disable logfile output
+
 ```ruby
 tl.disable(:logfile)
 tl.info 'this message is consle only'
 ```
 
-### enable logfile output
+### 3.8. enable logfile output
+
 ```ruby
 tl.enable(:logfile)
 tl.info 'this message is logfile and console'
 ```
 
-### disable in block
+### 3.9. disable in block
+
 ```ruby
 tl.disable(:console) do
   tl.info 'this message is logfile only'
@@ -117,7 +153,8 @@ end
 tl.info 'this message is logfile and console'
 ```
 
-### and others like Logger's
+### 3.10. and others like Logger's
+
 ```ruby
 # log_level
 tl.debug? # => true
@@ -140,12 +177,14 @@ tl.datetime_format # => nil or Proc
 tl.datetime_format = '%Y%m%d %H%M%S '
 ```
 
+---
 
-## include or extend TeeLogger
+## 4. include or extend TeeLogger
 
 > the log file will be in default of `./tee_logger.log`
 
-### for casual use
+### 4.1. for casual use
+
 ```ruby
 require 'tee_logger'
 
@@ -170,7 +209,8 @@ module YourAwesomeModule
 end
 ```
 
-### configuration logfile name, progname, level, formatter, and datetime_format.
+### 4.2. configuration logfile name, progname, level, formatter, and datetime_format
+
 ```ruby
 require 'tee_logger'
 
@@ -207,8 +247,9 @@ end
 
 ```
 
+---
 
-## Development
+## 5. Development
 
 After checking out the repo, run `bundle install` to install dependencies.
 Then, run `rake rspec` to run the tests.
@@ -222,8 +263,9 @@ which will create a git tag for the version,
 push git commits and tags,
 and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
+---
 
-## Contributing
+## 6. Contributing
 
 Bug reports and pull requests are welcome on GitHub
 at https://github.com/k-ta-yamada/tee_logger.
@@ -232,17 +274,21 @@ welcoming space for collaboration,
 and contributors are expected to adhere to the
 [Contributor Covenant](https://contributor-covenant.org) code of conduct.
 
+---
 
-## License
+## 7. License
 
 The gem is available as open source under the terms of the
 [MIT License](https://opensource.org/licenses/MIT).
 
+---
+
+eof
 
 [gem_version]: https://badge.fury.io/rb/tee_logger
 [gem_version-svg]: https://badge.fury.io/rb/tee_logger.svg
-[travis]: https://travis-ci.com/k-ta-yamada/tee_logger
-[travis-svg]: https://travis-ci.com/k-ta-yamada/tee_logger.svg
+[travis]: https://app.travis-ci.com/k-ta-yamada/tee_logger
+[travis-svg]: https://app.travis-ci.com/k-ta-yamada/tee_logger.svg?branch=master
 [codeclimate]: https://codeclimate.com/github/k-ta-yamada/tee_logger
 [codeclimate-svg]: https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/gpa.svg
 [codeclimate_cov]: https://codeclimate.com/github/k-ta-yamada/tee_logger/coverage
