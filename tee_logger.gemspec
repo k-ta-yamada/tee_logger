@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['k-ta-yamada']
   spec.email         = ['key.luvless@gmail.com']
 
-  spec.required_ruby_version = '>= 2.5.0'
+  spec.required_ruby_version = '>= 2.6.0'
 
   spec.summary       = 'logging to file and standard output.'
   # rubocop:disable Metrics/LineLength
