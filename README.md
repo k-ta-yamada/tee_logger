@@ -1,7 +1,7 @@
 # TeeLogger
 
 [![Gem Version][gem_version-svg]][gem_version]
-[![Build Status][travis-svg]][travis]
+[![Build Status][github-actions-svg]][github-actions]
 [![Downloads][downloads-svg]][gem_version]
 [![Inline docs][inch-ci-svg]][inch-ci]
 [![Code Climate][codeclimate-svg]][codeclimate]
@@ -287,8 +287,8 @@ eof
 
 [gem_version]: https://badge.fury.io/rb/tee_logger
 [gem_version-svg]: https://badge.fury.io/rb/tee_logger.svg
-[travis]: https://app.travis-ci.com/k-ta-yamada/tee_logger
-[travis-svg]: https://app.travis-ci.com/k-ta-yamada/tee_logger.svg?branch=master
+[github-actions]: https://github.com/k-ta-yamada/tee_logger/actions/workflows/ruby.yml
+[github-actions-svg]: https://github.com/k-ta-yamada/tee_logger/actions/workflows/ruby.yml/badge.svg
 [codeclimate]: https://codeclimate.com/github/k-ta-yamada/tee_logger
 [codeclimate-svg]: https://codeclimate.com/github/k-ta-yamada/tee_logger/badges/gpa.svg
 [codeclimate_cov]: https://codeclimate.com/github/k-ta-yamada/tee_logger/coverage
